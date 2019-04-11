@@ -96,6 +96,18 @@ class Curve extends Component {
     lineFunction.defined(defined)
       .curve(curveFactory);
 
+    console.log('using canvas!');
+    const layer = d3.select('.recharts-area'); // TODO: update for other chart types
+    const canvasChart = layer.append('canvas')
+      .attr('width', 549) // TODO: figure out how to calculate these
+      .attr('height', 318)
+      .style('margin-left', '67px')
+      .style('margin-bottom', '34px')
+      .attr('class', 'recharts-canvas');
+   
+    const context = canvasChart.node().getContext('2d');
+    lineFunction.context(context);
+
     return lineFunction(formatPoints);
   }
 
