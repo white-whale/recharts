@@ -162,6 +162,7 @@ class Tooltip extends Component {
       visibility: active && hasPayload ? 'visible' : 'hidden',
       position: 'absolute',
       top: 0,
+      zIndex: 1,
       ...wrapperStyle,
     };
     let translateX, translateY;

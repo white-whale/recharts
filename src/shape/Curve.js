@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { line as shapeLine, area as shapeArea, curveBasisClosed, curveBasisOpen,
   curveBasis, curveLinearClosed, curveLinear, curveMonotoneX, curveMonotoneY,
   curveNatural, curveStep, curveStepAfter, curveStepBefore } from 'd3-shape';
+import { select } from 'd3-selection';
 import classNames from 'classnames';
 import _ from 'lodash';
 import pureRender from '../util/PureRender';
@@ -63,29 +64,22 @@ class Curve extends Component {
   };
 
   /**
-   * Calculate the path of curve
-   * @return {String} path
+   * Calculate the line function
+   * @return {Object} lineFunction
    */
-  getPath() {
+  getLineFunction() {
     const { type, points, baseLine, layout, connectNulls } = this.props;
     const curveFactory = getCurveFactory(type, layout);
-    const formatPoints = connectNulls ? points.filter(entry => defined(entry)) : points;
     let lineFunction;
 
     if (_.isArray(baseLine)) {
-      const formatBaseLine = connectNulls ? baseLine.filter(base => defined(base)) : baseLine;
-      const areaPoints = formatPoints.map((entry, index) => (
-        { ...entry, base: formatBaseLine[index] }
-      ));
       if (layout === 'vertical') {
         lineFunction = shapeArea().y(getY).x1(getX).x0(d => d.base.x);
       } else {
         lineFunction = shapeArea().x(getX).y1(getY).y0(d => d.base.y);
       }
       lineFunction.defined(defined).curve(curveFactory);
-
-      return lineFunction(areaPoints);
-    } if (layout === 'vertical' && isNumber(baseLine)) {
+    } else if (layout === 'vertical' && isNumber(baseLine)) {
       lineFunction = shapeArea().y(getY).x1(getX).x0(baseLine);
     } else if (isNumber(baseLine)) {
       lineFunction = shapeArea().x(getX).y1(getY).y0(baseLine);
@@ -96,19 +90,73 @@ class Curve extends Component {
     lineFunction.defined(defined)
       .curve(curveFactory);
 
-    console.log('using canvas!');
-    const layer = d3.select('.recharts-area'); // TODO: update for other chart types
-    const canvasChart = layer.append('canvas')
-      .attr('width', 549) // TODO: figure out how to calculate these
-      .attr('height', 318)
-      .style('margin-left', '67px')
-      .style('margin-bottom', '34px')
-      .attr('class', 'recharts-canvas');
-   
-    const context = canvasChart.node().getContext('2d');
-    lineFunction.context(context);
+    return lineFunction;
+  }
 
+  /**
+   * Calculate the path of curve
+   * @return {String} path
+   */
+  getPath() {
+    const { points, connectNulls, baseLine } = this.props;
+    const lineFunction = this.getLineFunction();
+    const formatPoints = connectNulls ? points.filter(entry => defined(entry)) : points;
+    if (_.isArray(baseLine)) {
+      const formatBaseLine = connectNulls ? baseLine.filter(base => defined(base)) : baseLine;
+      const areaPoints = formatPoints.map((entry, index) => (
+        { ...entry, base: formatBaseLine[index] }
+      ));
+      return lineFunction(areaPoints);
+    }
     return lineFunction(formatPoints);
+  }
+
+  renderCanvas() {
+    const { points, connectNulls, baseLine, canvasId } = this.props;
+    const lineFunction = this.getLineFunction();
+    const canvasChart = select(`canvas#${canvasId}`);
+
+    let formatPoints = connectNulls ? points.filter(entry => defined(entry)) : points;
+    if (_.isArray(baseLine)) {
+      const formatBaseLine = connectNulls ? baseLine.filter(base => defined(base)) : baseLine;
+      formatPoints = formatPoints.map((entry, index) => (
+        { ...entry, base: formatBaseLine[index] }
+      ));
+      this.renderFillToCanvas(canvasChart, lineFunction, formatPoints);
+    } else {
+      this.renderStrokeToCanvas(canvasChart, lineFunction, formatPoints);
+    }
+  }
+
+  renderStrokeToCanvas(canvasChart, lineFunction, formatPoints) {
+    const { stroke } = this.props;
+    if (canvasChart && canvasChart.node() && lineFunction.context) {
+      const context = canvasChart.node().getContext('2d');
+      lineFunction.context(context);
+
+      context.strokeStyle = stroke;
+      context.save();
+      context.beginPath();
+      lineFunction(formatPoints);
+      context.stroke();
+      context.restore();
+    }
+  }
+
+  renderFillToCanvas(canvasChart, lineFunction, formatPoints) {
+    const { fill, fillOpacity } = this.props;
+    if (canvasChart.node() && lineFunction.context) {
+      const context = canvasChart.node().getContext('2d');
+      lineFunction.context(context);
+
+      context.fillStyle = fill;
+      context.save();
+      context.beginPath();
+      lineFunction(formatPoints);
+      context.globalAlpha = fillOpacity;
+      context.fill();
+      context.restore();
+    }
   }
 
   render() {
@@ -116,18 +164,21 @@ class Curve extends Component {
 
     if ((!points || !points.length) && !path) { return null; }
 
-    const realPath = (points && points.length) ?
-      this.getPath() : path;
+    // const realPath = (points && points.length) ?
+    //   this.getPath() : path;
 
-    return (
-      <path
-        {...getPresentationAttributes(this.props)}
-        {...filterEventAttributes(this.props, null, true)}
-        className={classNames('recharts-curve', className)}
-        d={realPath}
-        ref={pathRef}
-      />
-    );
+    // return (
+    //   <path
+    //     {...getPresentationAttributes(this.props)}
+    //     {...filterEventAttributes(this.props, null, true)}
+    //     className={classNames('recharts-curve', className)}
+    //     d={realPath}
+    //     ref={pathRef}
+    //   />
+    // );
+
+    this.renderCanvas();
+    return null;
   }
 }
 

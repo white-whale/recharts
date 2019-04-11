@@ -123,6 +123,7 @@ export default class AreaChartDemo extends Component {
           <AreaChart width={800} height={400} data={this.state.data}
             margin={{ top: 20, right: 80, left: 20, bottom: 5 }}
             syncId="test"
+            canvasId="id1"
           >
             <XAxis dataKey="time" type="number">
               <Label position="insideTopRight" offset={-30}>province</Label>
@@ -138,6 +139,7 @@ export default class AreaChartDemo extends Component {
               dot
               activeDot={renderCustomizedActiveDot}
               hide
+              canvasId="id1"
             >
               <LabelList position="top" />
             </Area>
@@ -150,6 +152,7 @@ export default class AreaChartDemo extends Component {
               dot
               activeDot={renderCustomizedActiveDot}
               label={renderLabel}
+              canvasId="id1"
             />
             <Area
               stackId="0"
@@ -160,6 +163,7 @@ export default class AreaChartDemo extends Component {
               animationBegin={1300}
               dot
               activeDot={renderCustomizedActiveDot}
+              canvasId="id1"
             >
               <LabelList position="top" />
             </Area>
@@ -173,6 +177,7 @@ export default class AreaChartDemo extends Component {
             margin={{ top: 20, right: 80, left: 20, bottom: 5 }}
             stackOffset="expand"
             syncId="test"
+            canvasId="id2"
           >
             <XAxis />
             <YAxis />
@@ -184,6 +189,7 @@ export default class AreaChartDemo extends Component {
               fill="#ff7300"
               dot
               activeDot={renderCustomizedActiveDot}
+              canvasId="id2"
             >
               <LabelList position="top" />
             </Area>
@@ -194,6 +200,8 @@ export default class AreaChartDemo extends Component {
               fill="#387908"
               dot
               activeDot={renderCustomizedActiveDot}
+              canvasId="id2"
+              isAnimationActive={false}
             >
               <LabelList />
             </Area>
@@ -205,6 +213,7 @@ export default class AreaChartDemo extends Component {
           <AreaChart width={800} height={400} data={this.state.data}
             margin={{ top: 20, right: 80, left: 20, bottom: 5 }}
             stackOffset="silhouette"
+            canvasId="id3"
           >
             <XAxis dataKey="name">
               <Label position="insideBottom">province</Label>
@@ -218,6 +227,7 @@ export default class AreaChartDemo extends Component {
               fill="#ff7300"
               dot
               activeDot={renderCustomizedActiveDot}
+              canvasId="id3"
             >
               <LabelList position="top" />
             </Area>
@@ -228,6 +238,7 @@ export default class AreaChartDemo extends Component {
               fill="#387908"
               dot
               activeDot={renderCustomizedActiveDot}
+              canvasId="id3"
             />
           </AreaChart>
         </div>
@@ -238,8 +249,9 @@ export default class AreaChartDemo extends Component {
             height={50}
             data={data.slice(0, 1)}
             margin={{ top: 5, right: 0, left: 0, bottom: 5 }}
+            canvasId="id4"
           >
-            <Area type="monotone" dataKey="uv" stroke="#ff7300" fill="#ff7300" />
+            <Area type="monotone" dataKey="uv" stroke="#ff7300" fill="#ff7300" canvasId="id4" />
           </AreaChart>
         </div>
 
@@ -249,6 +261,7 @@ export default class AreaChartDemo extends Component {
             height={400}
             data={data}
             margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+            canvasId="id5"
           >
             <YAxis type="number" yAxisId={0} stroke="#ff7300">
               <Label position="top" offset={10}>uv</Label>
@@ -265,9 +278,9 @@ export default class AreaChartDemo extends Component {
               <Label position="top" offset={10}>amt</Label>
             </YAxis>
             <XAxis dataKey="name" interval={0}/>
-            <Area dataKey="uv" stroke="#ff7300" fill="#ff7300" strokeWidth={2} yAxisId={0} />
-            <Area dataKey="pv" stroke="#387908" fill="#387908" strokeWidth={2} yAxisId={1} />
-            <Area dataKey="amt" stroke="#38abc8" fill="#38abc8" strokeWidth={2} yAxisId={2} />
+            <Area dataKey="uv" stroke="#ff7300" fill="#ff7300" strokeWidth={2} yAxisId={0} canvasId="id5" />
+            <Area dataKey="pv" stroke="#387908" fill="#387908" strokeWidth={2} yAxisId={1} canvasId="id5" />
+            <Area dataKey="amt" stroke="#38abc8" fill="#38abc8" strokeWidth={2} yAxisId={2} canvasId="id5" />
           </AreaChart>
         </div>
 
@@ -275,6 +288,7 @@ export default class AreaChartDemo extends Component {
         <div className="area-chart-wrapper" style={{ margin: 40 }}>
           <AreaChart width={400} height={400} data={data} layout="vertical"
             margin={{ top: 5, right: 30, bottom: 5, left: 5 }}
+            canvasId="id6"
           >
             <YAxis type="category" dataKey="name" />
             <XAxis type="number" xAxisId={0} orientation="top" />
@@ -285,6 +299,7 @@ export default class AreaChartDemo extends Component {
               fill="#ff7300"
               strokeWidth={2}
               xAxisId={0}
+              canvasId="id6"
             />
             <Area dataKey="pv"
               type="monotone"
@@ -292,6 +307,7 @@ export default class AreaChartDemo extends Component {
               fill="#387908"
               strokeWidth={2}
               xAxisId={1}
+              canvasId="id6"
             />
             <Tooltip />
           </AreaChart>
@@ -303,6 +319,7 @@ export default class AreaChartDemo extends Component {
             height={250}
             data={data}
             margin={{ top: 10, right: 30, bottom: 10, left: 10 }}
+            canvasId="id7"
           >
             <XAxis dataKey="name" hasTick />
             <YAxis tickCount={7} hasTick />
@@ -316,6 +333,7 @@ export default class AreaChartDemo extends Component {
               stroke="#ff7300"
               fill="#ff7300"
               fillOpacity={0.9}
+              canvasId="id7"
             />
           </AreaChart>
         </div>
@@ -324,6 +342,7 @@ export default class AreaChartDemo extends Component {
         <div>
           <AreaChart width={800} height={400} data={this.state.data}
             margin={{ top: 20, right: 80, left: 20, bottom: 5 }}
+            canvasId="id8"
           >
             <defs>
               <linearGradient id="MyGradient" x1="0" y1="0" x2="0" y2="1">
@@ -344,6 +363,7 @@ export default class AreaChartDemo extends Component {
               fillOpacity="1"
               fill="url(#MyGradient)"
               dot
+              canvasId="id8"
             />
           </AreaChart>
         </div>
@@ -351,12 +371,14 @@ export default class AreaChartDemo extends Component {
         <p>AreaChart of discrete values</p>
         <div className="area-chart-wrapper">
           <AreaChart
-              width={400} height={400} data={data01}
-              margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+            width={400} height={400} data={data01}
+            margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+            canvasId="id9"
+          >
             <XAxis dataKey="day" />
             <YAxis type="category" />
             <Tooltip />
-            <Area type="stepAfter" dataKey="weather" stroke="#0088FE" />
+            <Area type="stepAfter" dataKey="weather" stroke="#0088FE" canvasId="id9" />
           </AreaChart>
         </div>
 
@@ -367,11 +389,12 @@ export default class AreaChartDemo extends Component {
             height={400}
             data={rangeData}
             margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+            canvasId="id10"
           >
             <XAxis dataKey="day" />
             <YAxis />
             <Tooltip />
-            <Area dataKey="temperature" stroke="#0088FE" />
+            <Area dataKey="temperature" stroke="#0088FE" canvasId="id10" />
           </AreaChart>
         </div>
 

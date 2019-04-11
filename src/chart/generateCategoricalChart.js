@@ -1341,6 +1341,22 @@ const generateCategoricalChart = ({
       });
     }
 
+    /**
+     * Draw Canvas
+     * @return {ReactElement}  The canvas
+     */
+    renderCanvas() {
+      const { width, height, canvasId } = this.props;
+      return (
+        <canvas 
+          width={width} 
+          height={height} 
+          id={canvasId} 
+          style={{position: 'absolute', left: '0px'}} 
+        />
+      );
+    }
+
     renderBrush = (element) => {
       const { margin, data } = this.props;
       const { offset, dataStartIndex, dataEndIndex, updateId } = this.state;
@@ -1491,7 +1507,7 @@ const generateCategoricalChart = ({
     render() {
       if (!validateWidthHeight(this)) { return null; }
 
-      const { children, className, width, height, style, compact, ...others } = this.props;
+      const { children, className, width, height, style, compact, canvasId, ...others } = this.props;
       const attrs = getPresentationAttributes(others);
       const map = {
         CartesianGrid: { handler: this.renderGrid, once: true },
@@ -1543,6 +1559,7 @@ const generateCategoricalChart = ({
           </Surface>
           {this.renderLegend()}
           {this.renderTooltip()}
+          {this.renderCanvas()}
         </div>
       );
     }

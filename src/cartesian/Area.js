@@ -332,7 +332,7 @@ class Area extends Component {
   }
 
   renderAreaStatically(points, baseLine, needClip, clipPathId) {
-    const { layout, type, stroke, connectNulls, isRange } = this.props;
+    const { layout, type, stroke, connectNulls, isRange, canvasId } = this.props;
 
     return (
       <Layer clipPath={needClip ? `url(#clipPath-${clipPathId})` : null}>
@@ -346,6 +346,7 @@ class Area extends Component {
         {stroke !== 'none' && (
           <Curve
             {...getPresentationAttributes(this.props)}
+            canvasId={canvasId}
             className="recharts-area-curve"
             layout={layout}
             type={type}
@@ -357,6 +358,7 @@ class Area extends Component {
         {stroke !== 'none' && isRange && (
           <Curve
             {...getPresentationAttributes(this.props)}
+            canvasId={canvasId}
             className="recharts-area-curve"
             layout={layout}
             type={type}
