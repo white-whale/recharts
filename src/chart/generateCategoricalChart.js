@@ -15,6 +15,7 @@ import Rectangle from '../shape/Rectangle';
 import { findAllByType, findChildByType, getDisplayName, parseChildIndex,
   getPresentationAttributes, validateWidthHeight, isChildrenEqual,
   renderByOrder, getReactEventByType, filterEventAttributes } from '../util/ReactUtils';
+import { select } from 'd3-selection';
 
 import CartesianAxis from '../cartesian/CartesianAxis';
 import Brush from '../cartesian/Brush';
@@ -65,6 +66,7 @@ const generateCategoricalChart = ({
       maxBarSize: PropTypes.number,
       style: PropTypes.object,
       className: PropTypes.string,
+      canvasId: PropTypes.string,
       children: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.node),
         PropTypes.node,
@@ -209,12 +211,40 @@ const generateCategoricalChart = ({
       }
     }
 
+    componentWillUpdate(nextProps, nextState) {
+      // detect state changed by updateStateOfAxisMapsOffsetAndStackGroups and clear canvas before re-rendering due to that state change
+      // not sure that all of these conditions are needed
+      if (this.state.yAxisMap !== nextState.yAxisMap 
+        || this.state.xAxisMap !== nextState.xAxisMap 
+        || this.state.formatedGraphicalItems !== nextState.formatedGraphicalItems 
+        || this.state.graphicalItems !== nextState.graphicalItems 
+        || this.state.offset !== nextState.offset 
+        || this.state.stackGroups !== nextState.stackGroups 
+        || this.state.tooltipTicks !== nextState.tooltipTicks 
+        || this.state.orderedTooltipTicks !== nextState.orderedTooltipTicks 
+        || this.state.tooltipAxis !== nextState.tooltipAxis) {
+        this.clearCanvas();
+      }
+    }
+
     componentWillUnmount() {
       if (!_.isNil(this.props.syncId)) {
         this.removeListener();
       }
       if (typeof this.triggeredAfterMouseMove.cancel === 'function') {
         this.triggeredAfterMouseMove.cancel();
+      }
+    }
+
+     /**
+     * Clear the canvas
+     */
+    clearCanvas() {
+      const { canvasId } = this.props;
+      const canvasChart = select(`canvas#${canvasId}`);
+      if (canvasChart && canvasChart.node()) {
+        const context = canvasChart.node().getContext('2d');
+        context.clearRect(0, 0, canvasChart.node().width, canvasChart.node().height);
       }
     }
 
@@ -1507,7 +1537,7 @@ const generateCategoricalChart = ({
     render() {
       if (!validateWidthHeight(this)) { return null; }
 
-      const { children, className, width, height, style, compact, canvasId, ...others } = this.props;
+      const { children, className, width, height, style, compact, ...others } = this.props;
       const attrs = getPresentationAttributes(others);
       const map = {
         CartesianGrid: { handler: this.renderGrid, once: true },
@@ -1551,6 +1581,7 @@ const generateCategoricalChart = ({
           {...events}
           ref={(node) => { this.container = node; }}
         >
+          {this.renderCanvas()}
           <Surface {...attrs} width={width} height={height}>
             {this.renderClipPath()}
             {
@@ -1559,7 +1590,6 @@ const generateCategoricalChart = ({
           </Surface>
           {this.renderLegend()}
           {this.renderTooltip()}
-          {this.renderCanvas()}
         </div>
       );
     }

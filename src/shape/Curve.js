@@ -63,6 +63,16 @@ class Curve extends Component {
     connectNulls: false,
   };
 
+  componentDidMount() {
+    // need to wait to render onto canvas until after parent has finished rendering
+    this.renderCanvas();
+  }
+
+  componentDidUpdate() {
+    // need to wait to render onto canvas until after parent has finished rendering
+    this.renderCanvas();
+  }
+
   /**
    * Calculate the line function
    * @return {Object} lineFunction
@@ -176,8 +186,6 @@ class Curve extends Component {
     //     ref={pathRef}
     //   />
     // );
-
-    this.renderCanvas();
     return null;
   }
 }

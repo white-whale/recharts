@@ -34,7 +34,7 @@ function Surface(props) {
       className={layerClass}
       width={width}
       height={height}
-      style={style}
+      style={{ position: 'absolute', ...style}}
       viewBox={`${svgView.x} ${svgView.y} ${svgView.width} ${svgView.height}`}
       version="1.1"
     >

@@ -116,7 +116,7 @@ class DefaultLegendContent extends Component {
       display: layout === 'horizontal' ? 'inline-block' : 'block',
       marginRight: 10,
     };
-    const svgStyle = { display: 'inline-block', verticalAlign: 'middle', marginRight: 4 };
+    const svgStyle = { display: 'inline-block', verticalAlign: 'middle', marginRight: 4, position: 'initial' };
 
     return payload.map((entry, i) => {
       const finalFormatter = entry.formatter || formatter;
