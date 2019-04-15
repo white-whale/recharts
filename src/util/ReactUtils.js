@@ -61,6 +61,8 @@ export const PRESENTATION_ATTRIBUTES = {
   alignmentBaseline: PropTypes.string,
   angle: PropTypes.number,
   baselineShift: PropTypes.string,
+  canvas: PropTypes.bool,
+  canvasId: PropTypes.string,
   clip: PropTypes.string,
   clipPath: PropTypes.string,
   clipRule: PropTypes.string,

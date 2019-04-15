@@ -67,6 +67,7 @@ const generateCategoricalChart = ({
       style: PropTypes.object,
       className: PropTypes.string,
       canvasId: PropTypes.string,
+      canvas: PropTypes.bool,
       children: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.node),
         PropTypes.node,
@@ -90,6 +91,7 @@ const generateCategoricalChart = ({
       barGap: 4,
       margin: { top: 5, right: 5, bottom: 5, left: 5 },
       reverseStackOrder: false,
+      canvas: false,
       ...defaultProps,
     };
 
@@ -1484,7 +1486,7 @@ const generateCategoricalChart = ({
       const item = this.filterFormatItem(element, displayName, index);
       if (!item) { return null; }
 
-      const graphicalItem = cloneElement(element, item.props);
+      const graphicalItem = cloneElement(element, { ...item.props, canvas: this.props.canvas, canvasId: this.props.canvasId });
       const { isTooltipActive, tooltipAxis, activeTooltipIndex, activeLabel } = this.state;
       const { children } = this.props;
       const tooltipItem = findChildByType(children, Tooltip);

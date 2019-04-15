@@ -64,13 +64,17 @@ class Curve extends Component {
   };
 
   componentDidMount() {
-    // need to wait to render onto canvas until after parent has finished rendering
-    this.renderCanvas();
+    if (this.props.canvas && this.props.canvasId) {
+      // need to wait to render onto canvas until after parent has finished rendering
+      this.renderCanvas();
+    };
   }
 
   componentDidUpdate() {
-    // need to wait to render onto canvas until after parent has finished rendering
-    this.renderCanvas();
+    if (this.props.canvas && this.props.canvasId) {
+      // need to wait to render onto canvas until after parent has finished rendering
+      this.renderCanvas();
+    };
   }
 
   /**
@@ -174,18 +178,21 @@ class Curve extends Component {
 
     if ((!points || !points.length) && !path) { return null; }
 
-    // const realPath = (points && points.length) ?
-    //   this.getPath() : path;
+    if (!this.props.canvas || !this.props.canvasId) {
+      const realPath = (points && points.length) ?
+        this.getPath() : path;
 
-    // return (
-    //   <path
-    //     {...getPresentationAttributes(this.props)}
-    //     {...filterEventAttributes(this.props, null, true)}
-    //     className={classNames('recharts-curve', className)}
-    //     d={realPath}
-    //     ref={pathRef}
-    //   />
-    // );
+      return (
+        <path
+          {...getPresentationAttributes(this.props)}
+          {...filterEventAttributes(this.props, null, true)}
+          className={classNames('recharts-curve', className)}
+          d={realPath}
+          ref={pathRef}
+        />
+      );
+    }
+    // canvas line is drawn in lifecycle hooks
     return null;
   }
 }

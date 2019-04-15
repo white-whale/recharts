@@ -408,7 +408,7 @@ export default class Demo extends Component {
 
         <p>A simple LineChart with fixed domain y-axis</p>
         <div className="line-chart-wrapper">
-          <LineChart width={400} height={400} data={data02} syncId="test">
+          <LineChart width={400} height={400} data={data02} syncId="test" canvas canvasId="id12">
             <CartesianGrid stroke="#f5f5f5" fill="#e6e6e6" />
             <Legend
               onMouseEnter={this.handleLegendMouseEnter}
