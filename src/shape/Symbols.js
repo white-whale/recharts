@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { symbol as shapeSymbol, symbolCircle, symbolCross, symbolDiamond,
   symbolSquare, symbolStar, symbolTriangle, symbolWye } from 'd3-shape';
+import { select } from 'd3-selection';
 import classNames from 'classnames';
 import pureRender from '../util/PureRender';
 import { PRESENTATION_ATTRIBUTES, getPresentationAttributes,
@@ -67,34 +68,72 @@ class Symbols extends Component {
     type: 'circle',
     size: 64,
     sizeType: 'area',
+    fillOpacity: 1,
   };
+
+  componentDidMount() {
+    if (this.props.canvas && this.props.canvasId) {
+      // need to wait to render onto canvas until after parent has finished rendering
+      this.renderSymbolToCanvas();
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.props.canvas && this.props.canvasId) {
+      // need to wait to render onto canvas until after parent has finished rendering
+      this.renderSymbolToCanvas();
+    }
+  }
 
   /**
    * Calculate the path of curve
-   * @return {String} path
+   * @return {Function} d3 symbol
    */
-  getPath() {
+  getSymbol() {
     const { size, sizeType, type } = this.props;
     const symbolFactory = getSymbolFactory(type);
     const symbol = shapeSymbol().type(symbolFactory)
       .size(calculateAreaSize(size, sizeType, type));
 
-    return symbol();
+    return symbol;
+  }
+
+  renderSymbolToCanvas() {
+    const { cx, cy, canvasId, fill, fillOpacity, size } = this.props;
+    const canvas = select(`canvas#${canvasId}`);
+    const symbol = this.getSymbol();
+
+    if (canvas && canvas.node() && cx === +cx && cy === +cy && size === +size) {
+      const context = canvas.node().getContext('2d');
+      symbol.context(context);
+
+      context.save();
+      context.fillStyle = fill;
+      context.globalAlpha = fillOpacity;
+      context.imageSmoothingQuality = 'high';
+      context.translate(cx, cy);
+      context.beginPath();
+      symbol();
+      context.fill();
+      context.restore();
+    }
   }
 
   render() {
-    const { className, cx, cy, size } = this.props;
+    const { className, cx, cy, size, canvas, canvasId } = this.props;
 
     if (cx === +cx && cy === +cy && size === +size) {
-      return (
-        <path
-          {...getPresentationAttributes(this.props)}
-          {...filterEventAttributes(this.props)}
-          className={classNames('recharts-symbols', className)}
-          transform={`translate(${cx}, ${cy})`}
-          d={this.getPath()}
-        />
-      );
+      if (!canvas || !canvasId) {
+        return (
+          <path
+            {...getPresentationAttributes(this.props)}
+            {...filterEventAttributes(this.props)}
+            className={classNames('recharts-symbols', className)}
+            transform={`translate(${cx}, ${cy})`}
+            d={this.getSymbol()()}
+          />
+        );
+      }
     }
 
     return null;

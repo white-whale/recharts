@@ -92,7 +92,7 @@ export default class Demo extends Component {
         <br/>
         <p>Simple ScatterChart</p>
         <div className="scatter-chart-wrapper">
-          <ScatterChart width={400} height={400} margin={{ top: 20, right: 20, bottom: 0, left: 20 }}>
+          <ScatterChart width={400} height={400} margin={{ top: 20, right: 20, bottom: 0, left: 20 }} canvas canvasId="id1">
             <XAxis type="number" dataKey="x" name="stature" unit="cm" />
             <YAxis type="number" dataKey="y" name="weight" unit="kg" />
             <CartesianGrid />
@@ -104,7 +104,7 @@ export default class Demo extends Component {
 
         <p>ScatterChart of three dimension data</p>
         <div className="scatter-chart-wrapper">
-          <ScatterChart width={400} height={400} margin={{ top: 20, right: 20, bottom: 0, left: 20 }}>
+          <ScatterChart width={400} height={400} margin={{ top: 20, right: 20, bottom: 0, left: 20 }} canvas canvasId="id2">
             <XAxis type="number" dataKey="x" name="stature" unit="cm" />
             <YAxis type="number" dataKey="y" name="weight" unit="kg" />
             <ZAxis type="number" dataKey="z" range={[50, 1200]} name="score" unit="km" />
@@ -122,7 +122,7 @@ export default class Demo extends Component {
 
         <p>ScatterChart with customized error bars</p>
         <div className="scatter-chart-wrapper">
-          <ScatterChart width={400} height={400} margin={{ top: 20, right: 20, bottom: 0, left: 20 }}>
+          <ScatterChart width={400} height={400} margin={{ top: 20, right: 20, bottom: 0, left: 20 }} canvas canvasId="id3">
             <XAxis type="number" dataKey="x" name="stature" unit="cm" />
             <YAxis type="number" dataKey="y" name="weight" unit="kg" />
             <CartesianGrid />
@@ -137,7 +137,7 @@ export default class Demo extends Component {
 
         <p>ScatterChart which has joint line</p>
         <div className="scatter-chart-wrapper">
-          <ScatterChart width={800} height={400} margin={{ top: 20, right: 20, bottom: 0, left: 20 }}>
+          <ScatterChart width={800} height={400} margin={{ top: 20, right: 20, bottom: 0, left: 20 }} canvas canvasId="id4">
             <XAxis type="number" dataKey="x" name="stature" unit="cm" />
             <YAxis dataKey="y" name="weight" unit="kg" />
             <ZAxis range={[64]} />
@@ -151,7 +151,7 @@ export default class Demo extends Component {
 
         <p>ScatterChart which has default x-axis</p>
         <div className="scatter-chart-wrapper">
-          <ScatterChart width={400} height={400} margin={{top: 20, right: 20, bottom: 20, left: 20}}>
+          <ScatterChart width={400} height={400} margin={{top: 20, right: 20, bottom: 20, left: 20}} canvas canvasId="id5">
             <XAxis dataKey={'x'} name='stature' unit='cm' />
             <YAxis dataKey={'y'} name='weight' unit='kg'/>
             <ZAxis dataKey={'z'} range={[60, 400]} name='score' unit='km'/>
@@ -164,7 +164,7 @@ export default class Demo extends Component {
 
         <p>ScatterChart filled by squares</p>
         <div className="scatter-chart-wrapper">
-          <ScatterChart width={900} height={300} margin={{top: 20, right: 20, bottom: 20, left: 20}}>
+          <ScatterChart width={900} height={300} margin={{top: 20, right: 20, bottom: 20, left: 20}} canvas canvasId="id6">
             <XAxis dataKey="x" type="category" allowDuplicatedCategory={false} domain={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]} allowDuplicatedCategory={false} name="hour"  />
             <YAxis dataKey="y" type="category" allowDuplicatedCategory={false} domain={['Sun', 'Sat', 'Fri', 'Thu', 'Wed', 'Tue', 'Mon']} allowDuplicatedCategory={false} name="week" />
             <ZAxis dataKey="z" range={[0.2, 1]} name="score" />
