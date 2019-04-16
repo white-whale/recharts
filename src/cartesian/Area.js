@@ -241,6 +241,8 @@ class Area extends Component {
 
     const { dot, points, dataKey } = this.props;
     const areaProps = getPresentationAttributes(this.props);
+    delete areaProps.canvas; // prevents console warnings from svg
+    delete areaProps.canvasId;
     const customDotProps = getPresentationAttributes(dot);
     const dotEvents = filterEventAttributes(dot);
 

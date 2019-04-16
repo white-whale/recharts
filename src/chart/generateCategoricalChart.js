@@ -1546,8 +1546,8 @@ const generateCategoricalChart = ({
         ReferenceArea: { handler: this.renderReferenceElement, layer: 'top' },
         ReferenceLine: { handler: this.renderReferenceElement, layer: 'top' },
         ReferenceDot: { handler: this.renderReferenceElement, layer: 'top' },
-        XAxis: { handler: this.renderXAxis, layer: 'bottom' },
-        YAxis: { handler: this.renderYAxis, layer: 'bottom' },
+        XAxis: { handler: this.renderXAxis, layer: 'top' },
+        YAxis: { handler: this.renderYAxis, layer: 'top' },
         Brush: { handler: this.renderBrush, once: true, layer: 'top' },
         Bar: { handler: this.renderGraphicChild, layer: 'top' },
         Line: { handler: this.renderGraphicChild, layer: 'top' },
@@ -1561,7 +1561,8 @@ const generateCategoricalChart = ({
         PolarGrid: { handler: this.renderPolarGrid, once: true, layer: 'bottom' },
         PolarAngleAxis: { handler: this.renderPolarAxis, layer: 'bottom' },
         PolarRadiusAxis: { handler: this.renderPolarAxis, layer: 'bottom' },
-        Legend: { handler: () => null, layer: 'bottom' },
+        Legend: { handler: () => null, layer: 'top' },
+        ZAxis: { handler: () => null, layer: 'top' },
       };
 
       // The "compact" mode is mainly used as the panorama within Brush

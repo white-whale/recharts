@@ -187,10 +187,13 @@ class Curve extends Component {
     if (!canvas || !canvasId) {
       const realPath = (points && points.length) ?
         this.getPath() : path;
+      const curveProps = getPresentationAttributes(this.props);
+      delete curveProps.canvas; // prevents console warnings from svg
+      delete curveProps.canvasId;
 
       return (
         <path
-          {...getPresentationAttributes(this.props)}
+          {...curveProps}
           {...filterEventAttributes(this.props, null, true)}
           className={classNames('recharts-curve', className)}
           d={realPath}

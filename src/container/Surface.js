@@ -27,6 +27,11 @@ function Surface(props) {
   const svgView = viewBox || { width, height, x: 0, y: 0 };
   const layerClass = classNames('recharts-surface', className);
   const attrs = getPresentationAttributes(others);
+  if (attrs) {
+    // do not pass these as props to svg
+    delete attrs.canvas;
+    delete attrs.canvasId;
+  }
 
   return (
     <svg

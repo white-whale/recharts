@@ -268,6 +268,8 @@ class Line extends Component {
     }
     const { dot, points, dataKey } = this.props;
     const lineProps = getPresentationAttributes(this.props);
+    delete lineProps.canvas; // prevents console warnings from svg
+    delete lineProps.canvasId;
     const customDotProps = getPresentationAttributes(dot);
     const dotEvents = filterEventAttributes(dot);
     const dots = points.map((entry, i) => {

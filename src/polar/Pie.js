@@ -330,6 +330,8 @@ class Pie extends Component {
     }
     const { label, labelLine, dataKey, valueKey } = this.props;
     const pieProps = getPresentationAttributes(this.props);
+    delete pieProps.canvas; // prevents console warnings from svg
+    delete pieProps.canvasId;
     const customLabelProps = getPresentationAttributes(label);
     const customLabelLineProps = getPresentationAttributes(labelLine);
     const offsetRadius = (label && label.offsetRadius) || 20;
