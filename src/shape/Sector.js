@@ -4,6 +4,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { arc } from 'd3-shape';
+import { select } from 'd3-selection';
 import pureRender from '../util/PureRender';
 import { PRESENTATION_ATTRIBUTES, getPresentationAttributes,
   filterEventAttributes } from '../util/ReactUtils';
@@ -15,6 +17,12 @@ const getDeltaAngle = (startAngle, endAngle) => {
   const deltaAngle = Math.min(Math.abs(endAngle - startAngle), 359.999);
 
   return sign * deltaAngle;
+};
+
+const convertToD3Angle = (degrees) => {
+  // calculates 360 - degrees + 90 to reflect across the x axis and then shift by 90 degrees
+  // then converts to radians
+  return (450 - degrees) * Math.PI / 180;
 };
 
 const getTangentCircle = ({ cx, cy, radius, angle, sign, isExternal,
@@ -139,35 +147,85 @@ class Sector extends Component {
     cornerRadius: 0,
   };
 
+  componentDidMount() {
+    if (this.props.canvas && this.props.canvasId) {
+      // need to wait to render onto canvas until after parent has finished rendering
+      this.renderSectorToCanvas();
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.props.canvas && this.props.canvasId) {
+      // need to wait to render onto canvas until after parent has finished rendering
+      this.renderSectorToCanvas();
+    }
+  }
+
+  getArcFunction() {
+    const { innerRadius, outerRadius, cornerRadius, startAngle, endAngle } = this.props;
+    return arc().innerRadius(innerRadius).outerRadius(outerRadius).cornerRadius(cornerRadius)
+      .startAngle(convertToD3Angle(startAngle))
+      .endAngle(convertToD3Angle(endAngle));
+  }
+
+  renderSectorToCanvas() {
+    const { cx, cy, canvasId, stroke, fill } = this.props;
+    const canvas = select(`canvas#${canvasId}`);
+    const arcFunction = this.getArcFunction();
+
+    if (canvas && canvas.node()) {
+      const context = canvas.node().getContext('2d');
+      arcFunction.context(context);
+
+      context.save();
+      context.strokeStyle = stroke;
+      context.fillStyle = fill;
+      context.imageSmoothingQuality = 'high';
+      context.translate(cx, cy);
+      context.beginPath();
+      arcFunction();
+      context.fill();
+      context.stroke();
+      context.restore();
+    }
+  }
+
   render() {
-    const { cx, cy, innerRadius, outerRadius, cornerRadius, startAngle, endAngle,
-      className } = this.props;
+    const { cx, cy, innerRadius, outerRadius, startAngle, endAngle,
+      className, canvas, canvasId } = this.props;
 
     if (outerRadius < innerRadius || startAngle === endAngle) { return null; }
 
     const layerClass = classNames('recharts-sector', className);
-    const deltaRadius = outerRadius - innerRadius;
-    const cr = getPercentValue(cornerRadius, deltaRadius, 0, true);
-    let path;
+    // const deltaRadius = outerRadius - innerRadius;
+    // const cr = getPercentValue(cornerRadius, deltaRadius, 0, true);
+    // let path;
 
-    if (cr > 0 && Math.abs(startAngle - endAngle) < 360) {
-      path = getSectorWithCorner({
-        cx, cy, innerRadius, outerRadius,
-        cornerRadius: Math.min(cr, deltaRadius / 2),
-        startAngle, endAngle,
-      });
-    } else {
-      path = getSectorPath({ cx, cy, innerRadius, outerRadius, startAngle, endAngle });
+    // if (cr > 0 && Math.abs(startAngle - endAngle) < 360) {
+    //   path = getSectorWithCorner({
+    //     cx, cy, innerRadius, outerRadius,
+    //     cornerRadius: Math.min(cr, deltaRadius / 2),
+    //     startAngle, endAngle,
+    //   });
+    // } else {
+    //   path = getSectorPath({ cx, cy, innerRadius, outerRadius, startAngle, endAngle });
+    // }
+
+    if (!canvas || !canvasId) {
+      const path = this.getArcFunction()();
+
+      return (
+        <path
+          {...getPresentationAttributes(this.props)}
+          {...filterEventAttributes(this.props)}
+          className={layerClass}
+          d={path}
+          transform={`translate(${cx},${cy})`}
+        />
+      );
     }
-
-    return (
-      <path
-        {...getPresentationAttributes(this.props)}
-        {...filterEventAttributes(this.props)}
-        className={layerClass}
-        d={path}
-      />
-    );
+    // canvas line is drawn in lifecycle hooks
+    return null;
   }
 }
 

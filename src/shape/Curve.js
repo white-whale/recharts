@@ -67,14 +67,14 @@ class Curve extends Component {
     if (this.props.canvas && this.props.canvasId) {
       // need to wait to render onto canvas until after parent has finished rendering
       this.renderCanvas();
-    };
+    }
   }
 
   componentDidUpdate() {
     if (this.props.canvas && this.props.canvasId) {
       // need to wait to render onto canvas until after parent has finished rendering
       this.renderCanvas();
-    };
+    }
   }
 
   /**

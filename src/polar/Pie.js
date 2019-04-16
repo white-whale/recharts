@@ -393,13 +393,15 @@ class Pie extends Component {
   }
 
   renderSectorsStatically(sectors) {
-    const { activeShape, blendStroke } = this.props;
+    const { activeShape, blendStroke, canvas, canvasId } = this.props;
 
     return sectors.map((entry, i) => {
       const sectorOptions = this.isActiveIndex(i) ? activeShape : null;
       const sectorProps = {
         ...entry,
-        stroke: blendStroke ? entry.fill : entry.stroke
+        stroke: blendStroke ? entry.fill : entry.stroke,
+        canvas,
+        canvasId,
       };
 
       return (

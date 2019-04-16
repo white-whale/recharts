@@ -127,7 +127,19 @@ class Rectangle extends Component {
         // calculate total length error
       }
     }
+    if (this.props.canvas && this.props.canvasId) {
+      const { x, y, width, height } = this.props;
+      // need to wait to render onto canvas until after parent has finished rendering
+      this.renderRectangleToCanvas(x, y, width, height);
+    }
+  }
 
+  componentDidUpdate() {
+    if (this.props.canvas && this.props.canvasId) {
+      const { x, y, width, height } = this.props;
+      // need to wait to render onto canvas until after parent has finished rendering
+      this.renderRectangleToCanvas(x, y, width, height);
+    }
   }
 
   renderRectangleToCanvas(x, y, width, height) {
