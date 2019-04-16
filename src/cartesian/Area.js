@@ -346,7 +346,6 @@ class Area extends Component {
         {stroke !== 'none' && (
           <Curve
             {...getPresentationAttributes(this.props)}
-            canvasId={canvasId}
             className="recharts-area-curve"
             layout={layout}
             type={type}
@@ -358,7 +357,6 @@ class Area extends Component {
         {stroke !== 'none' && isRange && (
           <Curve
             {...getPresentationAttributes(this.props)}
-            canvasId={canvasId}
             className="recharts-area-curve"
             layout={layout}
             type={type}

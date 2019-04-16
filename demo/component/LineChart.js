@@ -408,7 +408,7 @@ export default class Demo extends Component {
 
         <p>A simple LineChart with fixed domain y-axis</p>
         <div className="line-chart-wrapper">
-          <LineChart width={400} height={400} data={data02} syncId="test" canvas canvasId="id12">
+          <LineChart width={400} height={400} data={data02} syncId="test" canvas canvasId="id1">
             <CartesianGrid stroke="#f5f5f5" fill="#e6e6e6" />
             <Legend
               onMouseEnter={this.handleLegendMouseEnter}
@@ -444,6 +444,8 @@ export default class Demo extends Component {
             data={data}
             margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
             syncId="test"
+            canvas
+            canvasId="id2"
           >
             <CartesianGrid stroke='#f5f5f5' verticalFill={['rgba(0, 0, 0, 0.2)', 'rgba(255, 255, 255, 0.3)']} horizontalFill={['#ccc', '#fff']} />
             <Legend />
@@ -462,6 +464,8 @@ export default class Demo extends Component {
             height={400}
             data={data}
             margin={{top: 10, bottom: 10, left: 30, right: 30}}
+            canvas
+            canvasId="id3"
           >
             <XAxis dataKey='name' />
             <CartesianGrid stroke='#f5f5f5'/>
@@ -484,7 +488,7 @@ export default class Demo extends Component {
 
         <p>LineChart with three y-axes</p>
         <div className='line-chart-wrapper' style={{ margin: 40 }}>
-          <LineChart width={600} height={400} data={data}>
+          <LineChart width={600} height={400} data={data} canvas canvasId="id4">
             <YAxis type='number' yAxisId={0} domain={[0, 1020]}/>
             <YAxis type='number' orientation='right' yAxisId={1}/>
             <YAxis type='number' orientation='right' yAxisId={2}/>
@@ -512,6 +516,8 @@ export default class Demo extends Component {
             height={400}
             data={this.state.data}
             margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+            canvas
+            canvasId="id5"
           >
             <CartesianGrid stroke="#f5f5f5" />
             <Legend />
@@ -524,8 +530,15 @@ export default class Demo extends Component {
 
         <p>LineChart of vertical layout</p>
         <div className='line-chart-wrapper' style={{ margin: 40 }}>
-          <LineChart width={400} height={400} data={data} layout='vertical'
-            margin={{top: 5, right: 20, left: 20, bottom: 5}}>
+          <LineChart
+            width={400}
+            height={400}
+            data={data}
+            layout='vertical'
+            margin={{top: 5, right: 20, left: 20, bottom: 5}}
+            canvas
+            canvasId="id6"
+          >
             <YAxis type='category' dataKey='name'/>
             <XAxis type='number' xAxisId={0} orientation='top'/>
             <XAxis type='number' xAxisId={1} orientation='bottom'/>
@@ -538,8 +551,13 @@ export default class Demo extends Component {
         <p>LineChart of discrete values</p>
         <div className="line-chart-wrapper">
           <LineChart
-            width={400} height={400} data={data01}
-            margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+            width={400}
+            height={400}
+            data={data01}
+            margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+            canvas
+            canvasId="id7"
+          >
             <XAxis dataKey="day" />
             <YAxis type="category" />
             <Tooltip />
@@ -550,8 +568,12 @@ export default class Demo extends Component {
         <p>LineChart with panoramic brush and custom tooltip styles</p>
         <div className="line-chart-wrapper">
           <LineChart
-            width={600} height={400} data={data03}
+            width={600}
+            height={400}
+            data={data03}
             margin={{ top: 40, right: 40, bottom: 20, left: 20 }}
+            canvas
+            canvasId="id8"
           >
             <CartesianGrid vertical={false} />
             <XAxis dataKey="date" label="Date" />
@@ -577,7 +599,7 @@ export default class Demo extends Component {
 
         <p>LineChart repeates categories on x axis</p>
         <div className="line-chart-wrapper">
-          <LineChart width={600} height={300}>
+          <LineChart width={600} height={300} canvas canvasId="id9">
             <XAxis dataKey="category" type="category" allowDuplicatedCategory={false} />
             <YAxis dataKey="value"/>
             <CartesianGrid strokeDasharray="3 3"/>

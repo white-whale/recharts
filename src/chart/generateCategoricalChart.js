@@ -1583,13 +1583,34 @@ const generateCategoricalChart = ({
           {...events}
           ref={(node) => { this.container = node; }}
         >
-          {this.renderCanvas()}
-          <Surface {...attrs} width={width} height={height}>
-            {this.renderClipPath()}
-            {
-              renderByOrder(children, map)
-            }
-          </Surface>
+          {this.props.canvas ? 
+          (
+            <React.Fragment>
+              {/* cartesian grid: should be under canvas */}
+              <Surface {...attrs} width={width} height={height}>
+                {this.renderClipPath()}
+                {
+                  children && children.length && renderByOrder(children.filter((c) => c && c.type && c.type.name && c.type.name === 'CartesianGrid'), map)
+                }
+              </Surface>
+              {this.renderCanvas()}
+              {/* dots, axes, and tooltip: should be above canvas */}
+              <Surface {...attrs} width={width} height={height}>
+                {this.renderClipPath()}
+                {
+                  children && children.length && renderByOrder(children.filter((c) => !(c && c.type && c.type.name && c.type.name === 'CartesianGrid')), map)
+                }
+              </Surface>
+            </React.Fragment>
+          ) : 
+          (
+            <Surface {...attrs} width={width} height={height}>
+              {this.renderClipPath()}
+              {
+                renderByOrder(children, map)
+              }
+            </Surface>
+          )}
           {this.renderLegend()}
           {this.renderTooltip()}
         </div>

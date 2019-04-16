@@ -82,7 +82,7 @@ class Curve extends Component {
    * @return {Object} lineFunction
    */
   getLineFunction() {
-    const { type, points, baseLine, layout, connectNulls } = this.props;
+    const { type, baseLine, layout } = this.props;
     const curveFactory = getCurveFactory(type, layout);
     let lineFunction;
 
@@ -143,13 +143,18 @@ class Curve extends Component {
   }
 
   renderStrokeToCanvas(canvasChart, lineFunction, formatPoints) {
-    const { stroke } = this.props;
+    const { stroke, strokeWidth, strokeDasharray } = this.props;
     if (canvasChart && canvasChart.node() && lineFunction.context) {
       const context = canvasChart.node().getContext('2d');
       lineFunction.context(context);
 
-      context.strokeStyle = stroke;
       context.save();
+      context.strokeStyle = stroke;
+      context.lineWidth = strokeWidth;
+      if (strokeDasharray && strokeDasharray !== "0px 0px") {
+        context.setLineDash(strokeDasharray.split(' ').map((s) => Number(s)));
+      }
+      context.imageSmoothingQuality = 'high';
       context.beginPath();
       lineFunction(formatPoints);
       context.stroke();
@@ -163,11 +168,12 @@ class Curve extends Component {
       const context = canvasChart.node().getContext('2d');
       lineFunction.context(context);
 
-      context.fillStyle = fill;
       context.save();
+      context.fillStyle = fill;
+      context.globalAlpha = fillOpacity;
+      context.imageSmoothingQuality = 'high';
       context.beginPath();
       lineFunction(formatPoints);
-      context.globalAlpha = fillOpacity;
       context.fill();
       context.restore();
     }

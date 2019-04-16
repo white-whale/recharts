@@ -309,7 +309,7 @@ class Line extends Component {
 
   renderCurveWithAnimation(needClip, clipPathId) {
     const { points, strokeDasharray, isAnimationActive, animationBegin,
-      animationDuration, animationEasing, animationId, width, height
+      animationDuration, animationEasing, animationId, width, height, canvas
     } = this.props;
     const { prevPoints, totalLength } = this.state;
 
@@ -353,12 +353,14 @@ class Line extends Component {
             const curLength = interpolator(t);
             let currentStrokeDasharray;
 
-            if (strokeDasharray) {
+            if (strokeDasharray && !canvas) {
               const lines = strokeDasharray.split(/[,\s]+/gim)
                 .map(num => parseFloat(num));
               currentStrokeDasharray = this.getStrokeDasharray(
                 curLength, totalLength, lines
               );
+            } else if (strokeDasharray && canvas) {
+              currentStrokeDasharray = strokeDasharray;
             } else {
               currentStrokeDasharray = `${curLength}px ${totalLength - curLength}px`;
             }
