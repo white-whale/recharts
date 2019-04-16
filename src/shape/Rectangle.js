@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Animate from 'react-smooth';
+import { select } from 'd3-selection';
 import pureRender from '../util/PureRender';
 import { PRESENTATION_ATTRIBUTES, EVENT_ATTRIBUTES, getPresentationAttributes,
   filterEventAttributes } from '../util/ReactUtils';
@@ -129,6 +130,22 @@ class Rectangle extends Component {
 
   }
 
+  renderRectangleToCanvas(x, y, width, height) {
+    // radius is not supported in canvas
+    const { canvasId, fill } = this.props;
+    const canvas = select(`canvas#${canvasId}`);
+    if (canvas && canvas.node()) {
+      const context = canvas.node().getContext('2d');
+      context.save();
+      context.fillStyle = fill;
+      context.imageSmoothingQuality = 'high';
+      context.beginPath();
+      context.fillRect(x, y, width, height);
+      context.restore();
+    }
+    return null;
+  }
+
   render() {
     const { x, y, width, height, radius, className } = this.props;
     const { totalLength } = this.state;
@@ -139,17 +156,25 @@ class Rectangle extends Component {
       height === 0) { return null; }
 
     const layerClass = classNames('recharts-rectangle', className);
-    if (!isUpdateAnimationActive) {
-      return (
-        <path
-          {...getPresentationAttributes(this.props)}
-          {...filterEventAttributes(this.props)}
-          className={layerClass}
-          d={getRectangePath(x, y, width, height, radius)}
-        />
-      );
+
+    let rectangle = (x, y, width, height, radius) => (
+      <path
+        {...getPresentationAttributes(this.props)}
+        {...filterEventAttributes(this.props)}
+        className={layerClass}
+        d={getRectangePath(x, y, width, height, radius)}
+        ref={(node) => { this.node = node; }}
+      />
+    );
+    if (this.props.canvas && this.props.canvasId) {
+      rectangle = (x, y, width, height, radius) => {
+        return this.renderRectangleToCanvas(x, y, width, height, radius);
+      };
     }
 
+    if (!isUpdateAnimationActive) {
+      return rectangle(x, y, width, height, radius);
+    }
     return (
       <Animate
         canBegin={totalLength > 0}
@@ -171,13 +196,7 @@ class Rectangle extends Component {
             isActive={isAnimationActive}
             easing={animationEasing}
           >
-            <path
-              {...getPresentationAttributes(this.props)}
-              {...filterEventAttributes(this.props)}
-              className={layerClass}
-              d={getRectangePath(currX, currY, currWidth, currHeight, radius)}
-              ref={(node) => { this.node = node; }}
-            />
+            {rectangle(currX, currY, currWidth, currHeight, radius)}
           </Animate>
         )
       }

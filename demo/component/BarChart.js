@@ -292,7 +292,7 @@ export default class Demo extends Component {
 
         <p>BarChart of layout vertical</p>
         <div className="bar-chart-wrapper">
-          <BarChart width={400} height={400} data={data.slice(0, 1)} maxBarSize={10}>
+          <BarChart width={400} height={400} data={data.slice(0, 1)} maxBarSize={10} canvas canvasId="id1">
             <XAxis padding={{ left: 20, right: 100 }} type="number" dataKey="time" />
             <YAxis type="number" />
             <CartesianGrid horizontal={false} />
@@ -309,7 +309,7 @@ export default class Demo extends Component {
           <a onClick={this.handleLessData}>less data</a>
         </p>
         <div className="bar-chart-wrapper" style={{ textAlign: 'right' }}>
-          <BarChart width={400} height={400} data={data} onClick={this.handlePvBarClick}>
+          <BarChart width={400} height={400} data={data} onClick={this.handlePvBarClick} canvas canvasId="id2">
             <XAxis dataKey="name" />
             <YAxis yAxisId="a" />
             <YAxis yAxisId="b" orientation="right" />
@@ -336,7 +336,7 @@ export default class Demo extends Component {
 
         <p>BarChart with error bars</p>
         <div className="bar-chart-wrapper" style={{ textAlign: 'right' }}>
-          <BarChart width={400} height={400} data={data} onClick={this.handlePvBarClick}>
+          <BarChart width={400} height={400} data={data} onClick={this.handlePvBarClick} canvas canvasId="id3">
             <XAxis dataKey="name" />
             <YAxis yAxisId="a" />
             <YAxis yAxisId="b" orientation="right" />
@@ -365,14 +365,14 @@ export default class Demo extends Component {
 
         <p>Tiny BarChart</p>
         <div className="bar-chart-wrapper">
-          <BarChart width={150} height={40} data={data}>
+          <BarChart width={150} height={40} data={data} canvas canvasId="id4">
             <Bar dataKey="uv" fill="#ff7300" onClick={this.handlePvBarClick} background />
           </BarChart>
         </div>
 
         <p>BarChart of positive and negative values</p>
         <div className="bar-chart-wrapper" style={{ userSelect: 'none', WebkitUserSelect: 'none' }}>
-          <BarChart width={1100} height={250} barGap={2} barSize={6} data={data02} margin={{ top: 20, right: 60, bottom: 0, left: 20 }}>
+          <BarChart width={1100} height={250} barGap={2} barSize={6} data={data02} margin={{ top: 20, right: 60, bottom: 0, left: 20 }} canvas canvasId="id5">
             <XAxis dataKey="name" />
             <YAxis tickCount={7} />
             <Tooltip />
@@ -386,7 +386,7 @@ export default class Demo extends Component {
 
         <p>BarChart of custom bar (1)</p>
         <div className="bar-chart-wrapper">
-          <BarChart width={500} height={250} barCategoryGap={0} data={data} margin={{ top: 20, right: 20, bottom: 0, left: 20 }}>
+          <BarChart width={500} height={250} barCategoryGap={0} data={data} margin={{ top: 20, right: 20, bottom: 0, left: 20 }} canvas canvasId="id6">
             <XAxis dataKey="name" />
             <Bar dataKey="uv" barGap={0} fill="#ff7300" shape={CustomBar} />
           </BarChart>
@@ -394,7 +394,7 @@ export default class Demo extends Component {
 
         <p>BarChart of custom bar (2)</p>
         <div className="bar-chart-wrapper">
-          <BarChart width={500} height={250} barCategoryGap={0} data={data} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+          <BarChart width={500} height={250} barCategoryGap={0} data={data} margin={{ top: 20, right: 20, bottom: 20, left: 20 }} canvas canvasId="id7">
             <XAxis axisLine={false} tickLine={false} dataKey="name" tick={<CustomAxis />} />
             <Bar dataKey="uv" barGap={0} fill="#387908" shape={<BarTwo />} label />
           </BarChart>
@@ -402,7 +402,7 @@ export default class Demo extends Component {
 
         <p>Stack BarChart</p>
         <div className="bar-chart-wrapper">
-          <BarChart width={400} height={400} data={data}>
+          <BarChart width={400} height={400} data={data} canvas canvasId="id8">
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
@@ -425,6 +425,8 @@ export default class Demo extends Component {
             height={400}
             data={rangeData}
             margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+            canvas
+            canvasId="id9"
           >
             <XAxis dataKey="day" />
             <YAxis />
@@ -441,6 +443,8 @@ export default class Demo extends Component {
             data={data}
             margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
             layout="vertical"
+            canvas
+            canvasId="id10"
           >
             <XAxis type="number" />
             <YAxis dataKey="name" type="category" />

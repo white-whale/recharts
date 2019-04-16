@@ -128,7 +128,7 @@ class Curve extends Component {
   renderCanvas() {
     const { points, connectNulls, baseLine, canvasId } = this.props;
     const lineFunction = this.getLineFunction();
-    const canvasChart = select(`canvas#${canvasId}`);
+    const canvas = select(`canvas#${canvasId}`);
 
     let formatPoints = connectNulls ? points.filter(entry => defined(entry)) : points;
     if (_.isArray(baseLine)) {
@@ -136,16 +136,16 @@ class Curve extends Component {
       formatPoints = formatPoints.map((entry, index) => (
         { ...entry, base: formatBaseLine[index] }
       ));
-      this.renderFillToCanvas(canvasChart, lineFunction, formatPoints);
+      this.renderFillToCanvas(canvas, lineFunction, formatPoints);
     } else {
-      this.renderStrokeToCanvas(canvasChart, lineFunction, formatPoints);
+      this.renderStrokeToCanvas(canvas, lineFunction, formatPoints);
     }
   }
 
-  renderStrokeToCanvas(canvasChart, lineFunction, formatPoints) {
+  renderStrokeToCanvas(canvas, lineFunction, formatPoints) {
     const { stroke, strokeWidth, strokeDasharray } = this.props;
-    if (canvasChart && canvasChart.node() && lineFunction.context) {
-      const context = canvasChart.node().getContext('2d');
+    if (canvas && canvas.node() && lineFunction.context) {
+      const context = canvas.node().getContext('2d');
       lineFunction.context(context);
 
       context.save();
@@ -162,10 +162,10 @@ class Curve extends Component {
     }
   }
 
-  renderFillToCanvas(canvasChart, lineFunction, formatPoints) {
+  renderFillToCanvas(canvas, lineFunction, formatPoints) {
     const { fill, fillOpacity } = this.props;
-    if (canvasChart.node() && lineFunction.context) {
-      const context = canvasChart.node().getContext('2d');
+    if (canvas.node() && lineFunction.context) {
+      const context = canvas.node().getContext('2d');
       lineFunction.context(context);
 
       context.save();
@@ -180,11 +180,11 @@ class Curve extends Component {
   }
 
   render() {
-    const { className, points, path, pathRef } = this.props;
+    const { className, points, path, pathRef, canvas, canvasId } = this.props;
 
     if ((!points || !points.length) && !path) { return null; }
 
-    if (!this.props.canvas || !this.props.canvasId) {
+    if (!canvas || !canvasId) {
       const realPath = (points && points.length) ?
         this.getPath() : path;
 
