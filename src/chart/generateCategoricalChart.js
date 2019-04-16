@@ -1542,25 +1542,26 @@ const generateCategoricalChart = ({
       const { children, className, width, height, style, compact, ...others } = this.props;
       const attrs = getPresentationAttributes(others);
       const map = {
-        CartesianGrid: { handler: this.renderGrid, once: true },
-        ReferenceArea: { handler: this.renderReferenceElement },
-        ReferenceLine: { handler: this.renderReferenceElement },
-        ReferenceDot: { handler: this.renderReferenceElement },
-        XAxis: { handler: this.renderXAxis },
-        YAxis: { handler: this.renderYAxis },
-        Brush: { handler: this.renderBrush, once: true },
-        Bar: { handler: this.renderGraphicChild },
-        Line: { handler: this.renderGraphicChild },
-        Area: { handler: this.renderGraphicChild },
-        Radar: { handler: this.renderGraphicChild },
-        RadialBar: { handler: this.renderGraphicChild },
-        Scatter: { handler: this.renderGraphicChild },
-        Pie: { handler: this.renderGraphicChild },
-        Funnel: { handler: this.renderGraphicChild },
-        Tooltip: { handler: this.renderCursor, once: true },
-        PolarGrid: { handler: this.renderPolarGrid, once: true },
-        PolarAngleAxis: { handler: this.renderPolarAxis },
-        PolarRadiusAxis: { handler: this.renderPolarAxis },
+        CartesianGrid: { handler: this.renderGrid, once: true, layer: 'bottom' },
+        ReferenceArea: { handler: this.renderReferenceElement, layer: 'top' },
+        ReferenceLine: { handler: this.renderReferenceElement, layer: 'top' },
+        ReferenceDot: { handler: this.renderReferenceElement, layer: 'top' },
+        XAxis: { handler: this.renderXAxis, layer: 'bottom' },
+        YAxis: { handler: this.renderYAxis, layer: 'bottom' },
+        Brush: { handler: this.renderBrush, once: true, layer: 'top' },
+        Bar: { handler: this.renderGraphicChild, layer: 'top' },
+        Line: { handler: this.renderGraphicChild, layer: 'top' },
+        Area: { handler: this.renderGraphicChild, layer: 'top' },
+        Radar: { handler: this.renderGraphicChild, layer: 'top' },
+        RadialBar: { handler: this.renderGraphicChild, layer: 'top' },
+        Scatter: { handler: this.renderGraphicChild, layer: 'top' },
+        Pie: { handler: this.renderGraphicChild, layer: 'top' },
+        Funnel: { handler: this.renderGraphicChild, layer: 'top' },
+        Tooltip: { handler: this.renderCursor, once: true, layer: 'top' },
+        PolarGrid: { handler: this.renderPolarGrid, once: true, layer: 'bottom' },
+        PolarAngleAxis: { handler: this.renderPolarAxis, layer: 'bottom' },
+        PolarRadiusAxis: { handler: this.renderPolarAxis, layer: 'bottom' },
+        Legend: { handler: () => null, layer: 'bottom' },
       };
 
       // The "compact" mode is mainly used as the panorama within Brush
@@ -1586,19 +1587,19 @@ const generateCategoricalChart = ({
           {this.props.canvas ? 
           (
             <React.Fragment>
-              {/* cartesian grid: should be under canvas */}
+              {/* grids and axes: should be under canvas */}
               <Surface {...attrs} width={width} height={height}>
                 {this.renderClipPath()}
                 {
-                  children && children.length && renderByOrder(children.filter((c) => c && c.type && c.type.name && c.type.name === 'CartesianGrid'), map)
+                  children && children.length && renderByOrder(children.filter((c) => c && c.type && c.type.name && map[c.type.name].layer === 'bottom'), map)
                 }
               </Surface>
               {this.renderCanvas()}
-              {/* dots, axes, and tooltip: should be above canvas */}
+              {/* dots, tooltip, and references: should be above canvas */}
               <Surface {...attrs} width={width} height={height}>
                 {this.renderClipPath()}
                 {
-                  children && children.length && renderByOrder(children.filter((c) => !(c && c.type && c.type.name && c.type.name === 'CartesianGrid')), map)
+                  children && children.length && renderByOrder(children.filter((c) => !(c && c.type && c.type.name && map[c.type.name].layer === 'bottom')), map)
                 }
               </Surface>
             </React.Fragment>

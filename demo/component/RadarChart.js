@@ -49,7 +49,7 @@ export default class Demo extends Component {
         </a>
         <br/>
         <p>A simple RadarChart</p>
-        <RadarChart cx={300} cy={250} outerRadius={150} width={600} height={500} data={data}>
+        <RadarChart cx={300} cy={250} outerRadius={150} width={600} height={500} data={data} canvas canvasId="id1">
           <PolarGrid />
           <PolarAngleAxis dataKey="subject" />
           <Radar name="Mike" dataKey="A" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
@@ -63,6 +63,8 @@ export default class Demo extends Component {
           width={600}
           height={500}
           data={data}
+          canvas
+          canvasId="id2"
         >
           <PolarGrid />
           <Tooltip />
@@ -89,7 +91,7 @@ export default class Demo extends Component {
         <p>RadarChart wrapped by ResponsiveContainer</p>
         <div style={{ width: '100%', height: '100%' }}>
           <ResponsiveContainer>
-            <RadarChart data={data}>
+            <RadarChart data={data} canvas canvasId="id3">
               <PolarGrid />
               <PolarAngleAxis dataKey="subject" />
               <PolarRadiusAxis />

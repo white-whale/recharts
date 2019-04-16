@@ -249,11 +249,11 @@ class Radar extends Component {
   }
 
   renderPolygon() {
-    const { points, isAnimationActive } = this.props;
+    const { points, isAnimationActive, canvas } = this.props;
     const { prevPoints } = this.state;
 
     if (isAnimationActive && points && points.length &&
-      (!prevPoints || !_.isEqual(prevPoints, points))) {
+      (!prevPoints || !_.isEqual(prevPoints, points)) && !canvas) {
       return this.renderPolygonWithAnimation();
     }
 
