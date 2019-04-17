@@ -8,7 +8,7 @@ import Animate from 'react-smooth';
 import { select } from 'd3-selection';
 import pureRender from '../util/PureRender';
 import { PRESENTATION_ATTRIBUTES, EVENT_ATTRIBUTES, getPresentationAttributes,
-  filterEventAttributes } from '../util/ReactUtils';
+  filterEventAttributes, filterSvgAttributes } from '../util/ReactUtils';
 
 const getRectangePath = (x, y, width, height, radius) => {
   const maxRadius = Math.min(Math.abs(width) / 2, Math.abs(height) / 2);
@@ -171,7 +171,7 @@ class Rectangle extends Component {
 
     let rectangle = (x, y, width, height, radius) => (
       <path
-        {...getPresentationAttributes(this.props)}
+        {...filterSvgAttributes(getPresentationAttributes(this.props))}
         {...filterEventAttributes(this.props)}
         className={layerClass}
         d={getRectangePath(x, y, width, height, radius)}

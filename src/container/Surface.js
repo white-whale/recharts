@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { getPresentationAttributes } from '../util/ReactUtils';
+import { getPresentationAttributes, filterSvgAttributes } from '../util/ReactUtils';
 
 const propTypes = {
   width: PropTypes.number.isRequired,
@@ -26,12 +26,7 @@ function Surface(props) {
   const { children, width, height, viewBox, className, style, ...others } = props;
   const svgView = viewBox || { width, height, x: 0, y: 0 };
   const layerClass = classNames('recharts-surface', className);
-  const attrs = getPresentationAttributes(others);
-  if (attrs) {
-    // do not pass these as props to svg
-    delete attrs.canvas;
-    delete attrs.canvasId;
-  }
+  const attrs = filterSvgAttributes(getPresentationAttributes(others));
 
   return (
     <svg

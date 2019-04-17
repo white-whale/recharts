@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import { select } from 'd3-selection';
 import pureRender from '../util/PureRender';
 import { PRESENTATION_ATTRIBUTES, getPresentationAttributes,
-  filterEventAttributes } from '../util/ReactUtils';
+  filterEventAttributes, filterSvgAttributes } from '../util/ReactUtils';
 
 const getPolygonPoints = points => (
   points.reduce((result, entry) => {
@@ -79,7 +79,7 @@ class Polygon extends Component {
     if (!canvas || !canvasId) {
       return (
         <polygon
-          {...getPresentationAttributes(this.props)}
+          {...filterSvgAttributes(getPresentationAttributes(this.props))}
           {...filterEventAttributes(this.props)}
           className={layerClass}
           points={getPolygonPoints(points)}

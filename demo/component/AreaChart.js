@@ -94,6 +94,8 @@ const renderLabel = (props) => {
   return <text x={x} y={y} className="customized-label">{index}</text>;
 };
 
+const useCanvas = false;
+
 export default class AreaChartDemo extends Component {
 
   static displayName = 'AreaChartDemo';
@@ -123,7 +125,7 @@ export default class AreaChartDemo extends Component {
           <AreaChart width={800} height={400} data={this.state.data}
             margin={{ top: 20, right: 80, left: 20, bottom: 5 }}
             syncId="test"
-            canvas
+            canvas={useCanvas}
             canvasId="id1"
           >
             <XAxis dataKey="time" type="number">
@@ -175,7 +177,7 @@ export default class AreaChartDemo extends Component {
             margin={{ top: 20, right: 80, left: 20, bottom: 5 }}
             stackOffset="expand"
             syncId="test"
-            canvas
+            canvas={useCanvas}
             canvasId="id2"
           >
             <XAxis />
@@ -210,7 +212,7 @@ export default class AreaChartDemo extends Component {
           <AreaChart width={800} height={400} data={this.state.data}
             margin={{ top: 20, right: 80, left: 20, bottom: 5 }}
             stackOffset="silhouette"
-            canvas
+            canvas={useCanvas}
             canvasId="id3"
           >
             <XAxis dataKey="name">
@@ -245,7 +247,7 @@ export default class AreaChartDemo extends Component {
             height={50}
             data={data.slice(0, 1)}
             margin={{ top: 5, right: 0, left: 0, bottom: 5 }}
-            canvas
+            canvas={useCanvas}
             canvasId="id4"
           >
             <Area type="monotone" dataKey="uv" stroke="#ff7300" fill="#ff7300" />
@@ -258,7 +260,7 @@ export default class AreaChartDemo extends Component {
             height={400}
             data={data}
             margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-            canvas
+            canvas={useCanvas}
             canvasId="id5"
           >
             <YAxis type="number" yAxisId={0} stroke="#ff7300">
@@ -286,7 +288,7 @@ export default class AreaChartDemo extends Component {
         <div className="area-chart-wrapper" style={{ margin: 40 }}>
           <AreaChart width={400} height={400} data={data} layout="vertical"
             margin={{ top: 5, right: 30, bottom: 5, left: 5 }}
-            canvas
+            canvas={useCanvas}
             canvasId="id6"
           >
             <YAxis type="category" dataKey="name" />
@@ -316,7 +318,7 @@ export default class AreaChartDemo extends Component {
             height={250}
             data={data}
             margin={{ top: 10, right: 30, bottom: 10, left: 10 }}
-            canvas
+            canvas={useCanvas}
             canvasId="id7"
           >
             <XAxis dataKey="name" hasTick />
@@ -339,8 +341,6 @@ export default class AreaChartDemo extends Component {
         <div>
           <AreaChart width={800} height={400} data={this.state.data}
             margin={{ top: 20, right: 80, left: 20, bottom: 5 }}
-            canvas
-            canvasId="id8"
           >
             <defs>
               <linearGradient id="MyGradient" x1="0" y1="0" x2="0" y2="1">
@@ -370,7 +370,7 @@ export default class AreaChartDemo extends Component {
           <AreaChart
             width={400} height={400} data={data01}
             margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
-            canvas
+            canvas={useCanvas}
             canvasId="id9"
           >
             <XAxis dataKey="day" />
@@ -387,7 +387,7 @@ export default class AreaChartDemo extends Component {
             height={400}
             data={rangeData}
             margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
-            canvas
+            canvas={useCanvas}
             canvasId="id10"
           >
             <XAxis dataKey="day" />

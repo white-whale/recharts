@@ -404,6 +404,22 @@ export const filterSvgElements = (children) => {
 
   return svgElements;
 };
+
+/**
+ * Filter out presentation props that are invalid for svg elements
+ * @param  {Object} props props for the svg element
+ * @return {Object}       filtered props
+ */
+export const filterSvgAttributes = (props) => {
+  if (props) {
+    const newProps = { ...props };
+    delete newProps.canvas;
+    delete newProps.canvasId;
+    return newProps;
+  }
+  return props;
+};
+
 export const isSingleChildEqual = (nextChild, prevChild) => {
   if (_.isNil(nextChild) && _.isNil(prevChild)) {
     return true;

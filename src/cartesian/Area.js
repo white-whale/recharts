@@ -12,7 +12,7 @@ import Layer from '../container/Layer';
 import LabelList from '../component/LabelList';
 import pureRender from '../util/PureRender';
 import { PRESENTATION_ATTRIBUTES, EVENT_ATTRIBUTES, LEGEND_TYPES,
-  getPresentationAttributes, isSsr, filterEventAttributes } from '../util/ReactUtils';
+  getPresentationAttributes, isSsr, filterEventAttributes, filterSvgAttributes } from '../util/ReactUtils';
 import { isNumber, uniqueId, interpolateNumber } from '../util/DataUtils';
 import { getCateCoordinateOfLine, getValueByDataKey } from '../util/ChartUtils';
 
@@ -240,9 +240,7 @@ class Area extends Component {
     if (isAnimationActive && !isAnimationFinished) { return null; }
 
     const { dot, points, dataKey } = this.props;
-    const areaProps = getPresentationAttributes(this.props);
-    delete areaProps.canvas; // prevents console warnings from svg
-    delete areaProps.canvasId;
+    const areaProps = filterSvgAttributes(getPresentationAttributes(this.props));
     const customDotProps = getPresentationAttributes(dot);
     const dotEvents = filterEventAttributes(dot);
 
@@ -451,12 +449,12 @@ class Area extends Component {
   }
 
   renderArea(needClip, clipPathId) {
-    const { points, baseLine, isAnimationActive } = this.props;
+    const { points, baseLine, isAnimationActive, canvas } = this.props;
     const { prevPoints, prevBaseLine, totalLength } = this.state;
 
     if (isAnimationActive && points && points.length &&
       ((!prevPoints && totalLength > 0) || !_.isEqual(prevPoints, points) ||
-        !_.isEqual(prevBaseLine, baseLine))) {
+        !_.isEqual(prevBaseLine, baseLine)) && !canvas) {
       return this.renderAreaWithAnimation(needClip, clipPathId);
     }
 

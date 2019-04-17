@@ -11,7 +11,7 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import pureRender from '../util/PureRender';
 import { PRESENTATION_ATTRIBUTES, getPresentationAttributes,
-  filterEventAttributes } from '../util/ReactUtils';
+  filterEventAttributes, filterSvgAttributes } from '../util/ReactUtils';
 import { isNumber } from '../util/DataUtils';
 
 const CURVE_FACTORIES = {
@@ -187,13 +187,10 @@ class Curve extends Component {
     if (!canvas || !canvasId) {
       const realPath = (points && points.length) ?
         this.getPath() : path;
-      const curveProps = getPresentationAttributes(this.props);
-      delete curveProps.canvas; // prevents console warnings from svg
-      delete curveProps.canvasId;
 
       return (
         <path
-          {...curveProps}
+          {...filterSvgAttributes(getPresentationAttributes(this.props))}
           {...filterEventAttributes(this.props, null, true)}
           className={classNames('recharts-curve', className)}
           d={realPath}

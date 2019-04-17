@@ -12,6 +12,8 @@ const data = [
   { name: 'Page F', uv: 1400, pv: 680, amt: 1700 },
 ];
 
+const useCanvas = false;
+
 // eslint-disable-next-line react/prefer-stateless-function
 export default class Demo extends Component {
 
@@ -28,7 +30,7 @@ export default class Demo extends Component {
               height={400}
               data={data}
               margin={{ top: 20, right: 20, bottom: 5, left: 20 }}
-              canvas
+              canvas={useCanvas}
               canvasId="id1"
             >
               <XAxis dataKey="name" />
@@ -57,7 +59,7 @@ export default class Demo extends Component {
             height={400}
             data={data}
             margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
-            canvas
+            canvas={useCanvas}
             canvasId="id2"
           >
             <XAxis dataKey="name"/>
@@ -78,7 +80,7 @@ export default class Demo extends Component {
             data={data}
             layout="vertical"
             margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
-            canvas
+            canvas={useCanvas}
             canvasId="id3"
           >
             <XAxis type="number" />
@@ -100,7 +102,7 @@ export default class Demo extends Component {
               height={400}
               data={data}
               margin={{ top: 20, right: 20, bottom: 5, left: 20 }}
-              canvas
+              canvas={useCanvas}
               canvasId="id4"
             >
               <XAxis dataKey="name" />

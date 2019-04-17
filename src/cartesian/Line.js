@@ -14,7 +14,7 @@ import LabelList from '../component/LabelList';
 import ErrorBar from './ErrorBar';
 import { uniqueId, interpolateNumber } from '../util/DataUtils';
 import { PRESENTATION_ATTRIBUTES, EVENT_ATTRIBUTES, LEGEND_TYPES, filterEventAttributes,
-  getPresentationAttributes, isSsr, findAllByType } from '../util/ReactUtils';
+  getPresentationAttributes, isSsr, findAllByType, filterSvgAttributes } from '../util/ReactUtils';
 import { getCateCoordinateOfLine, getValueByDataKey } from '../util/ChartUtils';
 
 @pureRender
@@ -267,9 +267,7 @@ class Line extends Component {
       return null;
     }
     const { dot, points, dataKey } = this.props;
-    const lineProps = getPresentationAttributes(this.props);
-    delete lineProps.canvas; // prevents console warnings from svg
-    delete lineProps.canvasId;
+    const lineProps = filterSvgAttributes(getPresentationAttributes(this.props));
     const customDotProps = getPresentationAttributes(dot);
     const dotEvents = filterEventAttributes(dot);
     const dots = points.map((entry, i) => {

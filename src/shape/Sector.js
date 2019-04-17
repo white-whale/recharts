@@ -8,7 +8,7 @@ import { arc } from 'd3-shape';
 import { select } from 'd3-selection';
 import pureRender from '../util/PureRender';
 import { PRESENTATION_ATTRIBUTES, getPresentationAttributes,
-  filterEventAttributes } from '../util/ReactUtils';
+  filterEventAttributes, filterSvgAttributes } from '../util/ReactUtils';
 import { polarToCartesian, RADIAN } from '../util/PolarUtils';
 import { getPercentValue, mathSign } from '../util/DataUtils';
 
@@ -216,7 +216,7 @@ class Sector extends Component {
 
       return (
         <path
-          {...getPresentationAttributes(this.props)}
+          {...filterSvgAttributes(getPresentationAttributes(this.props))}
           {...filterEventAttributes(this.props)}
           className={layerClass}
           d={path}

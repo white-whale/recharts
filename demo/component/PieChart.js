@@ -104,6 +104,8 @@ const renderActiveShape = (props) => {
   );
 };
 
+const useCanvas = false;
+
 export default class Demo extends Component {
 
   static displayName = 'PieChartDemo';
@@ -153,7 +155,7 @@ export default class Demo extends Component {
         <p>Simple PieChart</p>
         <div className="pie-chart-wrapper">
           <button onClick={this.handleChangeAnimation}>change animation</button>
-          <PieChart width={800} height={400} canvas canvasId="id1">
+          <PieChart width={800} height={400} canvas={useCanvas} canvasId="id1">
             <Legend paylodUniqBy />
             <Pie
               data={data01}
@@ -201,7 +203,7 @@ export default class Demo extends Component {
 
         <p>PieChart with two donut</p>
         <div className="pie-chart-wrapper">
-          <PieChart width={400} height={400} canvas canvasId="id2">
+          <PieChart width={400} height={400} canvas={useCanvas} canvasId="id2">
             <Legend verticalAlign="top"/>
             <Pie data={data01} dataKey="value" cx={200} cy={200} innerRadius={50} outerRadius={80}/>
             <Pie data={data03} dataKey="value" cx={200} cy={200} innerRadius={80} outerRadius={100}/>
@@ -211,7 +213,7 @@ export default class Demo extends Component {
         <p>PieChart wrapped by ResponsiveContainer</p>
         <div className="pie-chart-wrapper" style={{ width: '50%', height: '100%', backgroundColor: '#f5f5f5' }}>
           <ResponsiveContainer>
-            <PieChart canvas canvasId="id3">
+            <PieChart canvas={useCanvas} canvasId="id3">
               <Pie data={data01} nameKey="name" dataKey="value" innerRadius="25%" outerRadius="40%"/>
               <Pie data={data01} dataKey="v" innerRadius="45%" outerRadius="80%"/>
               <Tooltip />
@@ -222,7 +224,7 @@ export default class Demo extends Component {
         <p>PieChart wrapped by ResponsiveContainer</p>
         <div className="pie-chart-wrapper" style={{ width: '50%', height: '100%', backgroundColor: '#f5f5f5' }}>
           <ResponsiveContainer>
-            <PieChart onMouseEnter={this.handlePieChartEnter} canvas canvasId="id4">
+            <PieChart onMouseEnter={this.handlePieChartEnter} canvas={useCanvas} canvasId="id4">
               <Pie
                 data={data01}
                 dataKey="value"
@@ -247,7 +249,7 @@ export default class Demo extends Component {
         <p>PieChart has bug about tooltip</p>
         <div className="pie-chart-wrapper" style={{ width: '50%', height: '100%', backgroundColor: '#f5f5f5' }}>
           <ResponsiveContainer>
-            <PieChart canvas canvasId="id5">
+            <PieChart canvas={useCanvas} canvasId="id5">
               <Pie
                 data={data01}
                 dataKey="value"

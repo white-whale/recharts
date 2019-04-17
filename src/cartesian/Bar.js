@@ -295,11 +295,11 @@ class Bar extends Component {
   }
 
   renderRectangles() {
-    const { data, isAnimationActive } = this.props;
+    const { data, isAnimationActive, canvas } = this.props;
     const { prevData } = this.state;
 
     if (isAnimationActive && data && data.length &&
-      (!prevData || !_.isEqual(prevData, data))) {
+      (!prevData || !_.isEqual(prevData, data)) && !canvas) {
       return this.renderRectanglesWithAnimation();
     }
 

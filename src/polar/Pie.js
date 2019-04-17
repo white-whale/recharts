@@ -15,7 +15,7 @@ import Label from '../component/Label';
 import LabelList from '../component/LabelList';
 import Cell from '../component/Cell';
 import { PRESENTATION_ATTRIBUTES, EVENT_ATTRIBUTES, LEGEND_TYPES,
-  getPresentationAttributes, findAllByType, filterEventsOfChild, isSsr } from '../util/ReactUtils';
+  getPresentationAttributes, findAllByType, filterEventsOfChild, isSsr, filterSvgAttributes } from '../util/ReactUtils';
 import { polarToCartesian, getMaxRadius } from '../util/PolarUtils';
 import { isNumber, getPercentValue, mathSign, interpolateNumber, uniqueId } from '../util/DataUtils';
 import { getValueByDataKey } from '../util/ChartUtils';
@@ -329,9 +329,7 @@ class Pie extends Component {
       return null;
     }
     const { label, labelLine, dataKey, valueKey } = this.props;
-    const pieProps = getPresentationAttributes(this.props);
-    delete pieProps.canvas; // prevents console warnings from svg
-    delete pieProps.canvasId;
+    const pieProps = filterSvgAttributes(getPresentationAttributes(this.props));
     const customLabelProps = getPresentationAttributes(label);
     const customLabelLineProps = getPresentationAttributes(labelLine);
     const offsetRadius = (label && label.offsetRadius) || 20;
@@ -485,11 +483,11 @@ class Pie extends Component {
   }
 
   renderSectors() {
-    const { sectors, isAnimationActive } = this.props;
+    const { sectors, isAnimationActive, canvas } = this.props;
     const { prevSectors } = this.state;
 
     if (isAnimationActive && sectors && sectors.length &&
-      (!prevSectors || !_.isEqual(prevSectors, sectors))) {
+      (!prevSectors || !_.isEqual(prevSectors, sectors)) && !canvas) {
       return this.renderSectorsWithAnimation();
     }
     return this.renderSectorsStatically(sectors);

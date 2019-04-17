@@ -9,7 +9,7 @@ import { select } from 'd3-selection';
 import classNames from 'classnames';
 import pureRender from '../util/PureRender';
 import { PRESENTATION_ATTRIBUTES, getPresentationAttributes,
-  filterEventAttributes } from '../util/ReactUtils';
+  filterEventAttributes, filterSvgAttributes } from '../util/ReactUtils';
 
 const SYMBOL_FACTORIES = {
   symbolCircle, symbolCross, symbolDiamond,
@@ -126,7 +126,7 @@ class Symbols extends Component {
       if (!canvas || !canvasId) {
         return (
           <path
-            {...getPresentationAttributes(this.props)}
+            {...filterSvgAttributes(getPresentationAttributes(this.props))}
             {...filterEventAttributes(this.props)}
             className={classNames('recharts-symbols', className)}
             transform={`translate(${cx}, ${cy})`}

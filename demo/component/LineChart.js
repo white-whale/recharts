@@ -351,6 +351,8 @@ const specifiedDomain = [0.01, 'auto'];
 const specifiedTicks = [0.01, 0.1, 1, 10, 100, 1000];
 const specifiedMargin = { top: 20, right: 20, bottom: 20, left: 20 };
 
+const useCanvas = false;
+
 export default class Demo extends Component {
 
   static displayName = 'LineChartDemo';
@@ -408,7 +410,7 @@ export default class Demo extends Component {
 
         <p>A simple LineChart with fixed domain y-axis</p>
         <div className="line-chart-wrapper">
-          <LineChart width={400} height={400} data={data02} syncId="test" canvas canvasId="id1">
+          <LineChart width={400} height={400} data={data02} syncId="test" canvas={useCanvas} canvasId="id1">
             <CartesianGrid stroke="#f5f5f5" fill="#e6e6e6" />
             <Legend
               onMouseEnter={this.handleLegendMouseEnter}
@@ -444,7 +446,7 @@ export default class Demo extends Component {
             data={data}
             margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
             syncId="test"
-            canvas
+            canvas={useCanvas}
             canvasId="id2"
           >
             <CartesianGrid stroke='#f5f5f5' verticalFill={['rgba(0, 0, 0, 0.2)', 'rgba(255, 255, 255, 0.3)']} horizontalFill={['#ccc', '#fff']} />
@@ -464,7 +466,7 @@ export default class Demo extends Component {
             height={400}
             data={data}
             margin={{top: 10, bottom: 10, left: 30, right: 30}}
-            canvas
+            canvas={useCanvas}
             canvasId="id3"
           >
             <XAxis dataKey='name' />
@@ -488,7 +490,7 @@ export default class Demo extends Component {
 
         <p>LineChart with three y-axes</p>
         <div className='line-chart-wrapper' style={{ margin: 40 }}>
-          <LineChart width={600} height={400} data={data} canvas canvasId="id4">
+          <LineChart width={600} height={400} data={data} canvas={useCanvas} canvasId="id4">
             <YAxis type='number' yAxisId={0} domain={[0, 1020]}/>
             <YAxis type='number' orientation='right' yAxisId={1}/>
             <YAxis type='number' orientation='right' yAxisId={2}/>
@@ -516,7 +518,7 @@ export default class Demo extends Component {
             height={400}
             data={this.state.data}
             margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
-            canvas
+            canvas={useCanvas}
             canvasId="id5"
           >
             <CartesianGrid stroke="#f5f5f5" />
@@ -536,7 +538,7 @@ export default class Demo extends Component {
             data={data}
             layout='vertical'
             margin={{top: 5, right: 20, left: 20, bottom: 5}}
-            canvas
+            canvas={useCanvas}
             canvasId="id6"
           >
             <YAxis type='category' dataKey='name'/>
@@ -555,7 +557,7 @@ export default class Demo extends Component {
             height={400}
             data={data01}
             margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
-            canvas
+            canvas={useCanvas}
             canvasId="id7"
           >
             <XAxis dataKey="day" />
@@ -572,7 +574,7 @@ export default class Demo extends Component {
             height={400}
             data={data03}
             margin={{ top: 40, right: 40, bottom: 20, left: 20 }}
-            canvas
+            canvas={useCanvas}
             canvasId="id8"
           >
             <CartesianGrid vertical={false} />
@@ -599,7 +601,7 @@ export default class Demo extends Component {
 
         <p>LineChart repeates categories on x axis</p>
         <div className="line-chart-wrapper">
-          <LineChart width={600} height={300} canvas canvasId="id9">
+          <LineChart width={600} height={300} canvas={useCanvas} canvasId="id9">
             <XAxis dataKey="category" type="category" allowDuplicatedCategory={false} />
             <YAxis dataKey="value"/>
             <CartesianGrid strokeDasharray="3 3"/>
