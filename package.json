@@ -34,7 +34,7 @@
     "lint": "eslint src",
     "autofix": "eslint src --fix",
     "analyse": "cross-env NODE_ENV=analyse webpack src/index.js -o umd/Recharts.js",
-    "prepare": "npm run build"
+    "prepare": "npm install && npm run build"
   },
   "pre-commit": [],
   "pre-push": [
