@@ -1170,15 +1170,13 @@ const generateCategoricalChart = ({
       };
     }
 
-    filterFormatItem(item, displayName, childIndex) {
+    filterFormatItem(item) {
       const { formatedGraphicalItems } = this.state;
 
       for (let i = 0, len = formatedGraphicalItems.length; i < len; i++) {
         const entry = formatedGraphicalItems[i];
 
-        if (entry.item === item || entry.props.key === item.key || (
-          displayName === getDisplayName(entry.item.type) && childIndex === entry.childIndex
-        )) {
+        if (entry.item === item || entry.props.key === item.key) {
           return entry;
         }
       }
@@ -1482,8 +1480,8 @@ const generateCategoricalChart = ({
       return result;
     }
 
-    renderGraphicChild = (element, displayName, index) => {
-      const item = this.filterFormatItem(element, displayName, index);
+    renderGraphicChild = (element) => {
+      const item = this.filterFormatItem(element);
       if (!item) { return null; }
 
       const graphicalItem = cloneElement(element, { ...item.props, canvas: this.props.canvas, canvasId: this.props.canvasId });

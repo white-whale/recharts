@@ -131,7 +131,7 @@ class Curve extends Component {
     const canvas = select(`canvas#${canvasId}`);
 
     let formatPoints = connectNulls ? points.filter(entry => defined(entry)) : points;
-    if (_.isArray(baseLine)) {
+    if (_.isArray(baseLine) || isNumber(baseLine)) {
       const formatBaseLine = connectNulls ? baseLine.filter(base => defined(base)) : baseLine;
       formatPoints = formatPoints.map((entry, index) => (
         { ...entry, base: formatBaseLine[index] }
