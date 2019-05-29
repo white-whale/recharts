@@ -146,8 +146,8 @@ class Scatter extends Component {
     });
 
     return {
-      onMouseLeave: onItemMouseLeave,
-      onMouseEnter: onItemMouseEnter,
+      // onMouseLeave: onItemMouseLeave, // removed due to new handling of scatterplot tooltip
+      // onMouseEnter: onItemMouseEnter,
       points,
       ...offset,
     };

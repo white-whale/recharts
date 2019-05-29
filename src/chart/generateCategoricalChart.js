@@ -216,14 +216,14 @@ const generateCategoricalChart = ({
     componentWillUpdate(nextProps, nextState) {
       // detect state changed by updateStateOfAxisMapsOffsetAndStackGroups and clear canvas before re-rendering due to that state change
       // not sure that all of these conditions are needed
-      if (this.state.yAxisMap !== nextState.yAxisMap 
-        || this.state.xAxisMap !== nextState.xAxisMap 
-        || this.state.formatedGraphicalItems !== nextState.formatedGraphicalItems 
-        || this.state.graphicalItems !== nextState.graphicalItems 
-        || this.state.offset !== nextState.offset 
-        || this.state.stackGroups !== nextState.stackGroups 
-        || this.state.tooltipTicks !== nextState.tooltipTicks 
-        || this.state.orderedTooltipTicks !== nextState.orderedTooltipTicks 
+      if (this.state.yAxisMap !== nextState.yAxisMap
+        || this.state.xAxisMap !== nextState.xAxisMap
+        || this.state.formatedGraphicalItems !== nextState.formatedGraphicalItems
+        || this.state.graphicalItems !== nextState.graphicalItems
+        || this.state.offset !== nextState.offset
+        || this.state.stackGroups !== nextState.stackGroups
+        || this.state.tooltipTicks !== nextState.tooltipTicks
+        || this.state.orderedTooltipTicks !== nextState.orderedTooltipTicks
         || this.state.tooltipAxis !== nextState.tooltipAxis) {
         this.clearCanvas();
       }
@@ -529,9 +529,21 @@ const generateCategoricalChart = ({
       const e = calculateChartCoordinate(event, containerOffset);
       const rangeObj = this.inRange(e.chartX, e.chartY);
       if (!rangeObj) { return null; }
-
       const { xAxisMap, yAxisMap } = this.state;
 
+      if (eventType === 'single') {
+        // scatterplot
+        const { formatedGraphicalItems } = this.state; // scatters
+        const active = formatedGraphicalItems.reduce((closestPoint, cur) => {
+          const closestInScatter = cur.props.points.reduce((closest, point) => {
+            const dist = Math.hypot(point.cx - e.chartX, point.cy - e.chartY);
+            return dist < closest.dist ? { dist, point } : closest;
+          }, { dist: Infinity, point: {} });
+          return closestInScatter.dist < closestPoint.dist ? closestInScatter : closestPoint;
+        }, { dist: Infinity, point: {} });
+        if (active.dist > 25) return { ...e, activeCoordinate: null, activePayload: null };
+        return { ...e, activeCoordinate: active.point.tooltipPosition, activePayload: active.point.tooltipPayload }
+      }
       if (eventType !== 'axis' && xAxisMap && yAxisMap) {
         const xScale = getAnyElementOfObject(xAxisMap).scale;
         const yScale = getAnyElementOfObject(yAxisMap).scale;
@@ -641,6 +653,7 @@ const generateCategoricalChart = ({
           barGap, barCategoryGap, bandSize, sizeList: sizeList[cateAxisId], maxBarSize,
         });
         const componsedFn = item && item.type && item.type.getComposedData;
+
 
         if (componsedFn) {
           formatedItems.push({
@@ -770,7 +783,7 @@ const generateCategoricalChart = ({
     parseEventsOfWrapper() {
       const { children } = this.props;
       const tooltipItem = findChildByType(children, Tooltip);
-      const tooltipEvents = tooltipItem && eventType === 'axis' ? {
+      const tooltipEvents = tooltipItem && (eventType === 'axis' || eventType === 'single') ? {
         onMouseEnter: this.handleMouseEnter,
         onMouseMove: this.handleMouseMove,
         onMouseLeave: this.handleMouseLeave,
@@ -998,7 +1011,6 @@ const generateCategoricalChart = ({
     handleMouseEnter = (e) => {
       const { onMouseEnter } = this.props;
       const mouse = this.getMouseInfo(e);
-
       if (mouse) {
         const nextState = { ...mouse, isTooltipActive: true };
         this.setState(nextState);
@@ -1112,7 +1124,6 @@ const generateCategoricalChart = ({
 
       if (_.isFunction(onMouseUp)) {
         const mouse = this.getMouseInfo(e);
-
         onMouseUp(mouse, e);
       }
     };
@@ -1186,7 +1197,6 @@ const generateCategoricalChart = ({
 
     renderCursor = (element) => {
       const { isTooltipActive, activeCoordinate, activePayload, offset } = this.state;
-
       if (!element || !element.props.cursor || !isTooltipActive || !activeCoordinate) {
         return null;
       }
@@ -1378,11 +1388,11 @@ const generateCategoricalChart = ({
     renderCanvas() {
       const { width, height, canvasId } = this.props;
       return (
-        <canvas 
-          width={width} 
-          height={height} 
-          id={canvasId} 
-          style={{position: 'absolute', left: '0px'}} 
+        <canvas
+          width={width}
+          height={height}
+          id={canvasId}
+          style={{position: 'absolute', left: '0px'}}
         />
       );
     }
@@ -1583,7 +1593,7 @@ const generateCategoricalChart = ({
           {...events}
           ref={(node) => { this.container = node; }}
         >
-          {this.props.canvas ? 
+          {this.props.canvas ?
           (
             <React.Fragment>
               {/* grids and axes: should be under canvas */}
@@ -1602,7 +1612,7 @@ const generateCategoricalChart = ({
                 }
               </Surface>
             </React.Fragment>
-          ) : 
+          ) :
           (
             <Surface {...attrs} width={width} height={height}>
               {this.renderClipPath()}
