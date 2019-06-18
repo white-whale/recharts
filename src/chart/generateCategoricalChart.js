@@ -1594,33 +1594,33 @@ const generateCategoricalChart = ({
           ref={(node) => { this.container = node; }}
         >
           {this.props.canvas ?
-          (
-            <React.Fragment>
-              {/* grids and axes: should be under canvas */}
+            (
+              <React.Fragment>
+                {/* grids and axes: should be under canvas */}
+                <Surface {...attrs} width={width} height={height}>
+                  {this.renderClipPath()}
+                  {
+                    children && children.length && renderByOrder(children, map, componentType => map[componentType].layer === 'bottom')
+                  }
+                </Surface>
+                {this.renderCanvas()}
+                {/* dots, tooltip, and references: should be above canvas */}
+                <Surface {...attrs} width={width} height={height}>
+                  {this.renderClipPath()}
+                  {
+                    children && children.length && renderByOrder(children, map, componentType => map[componentType].layer !== 'bottom')
+                  }
+                </Surface>
+              </React.Fragment>
+            ) :
+            (
               <Surface {...attrs} width={width} height={height}>
                 {this.renderClipPath()}
                 {
-                  children && children.length && renderByOrder(children.filter((c) => c && c.type && c.type.name && map[c.type.name].layer === 'bottom'), map)
+                  renderByOrder(children, map)
                 }
               </Surface>
-              {this.renderCanvas()}
-              {/* dots, tooltip, and references: should be above canvas */}
-              <Surface {...attrs} width={width} height={height}>
-                {this.renderClipPath()}
-                {
-                  children && children.length && renderByOrder(children.filter((c) => !(c && c.type && c.type.name && map[c.type.name].layer === 'bottom')), map)
-                }
-              </Surface>
-            </React.Fragment>
-          ) :
-          (
-            <Surface {...attrs} width={width} height={height}>
-              {this.renderClipPath()}
-              {
-                renderByOrder(children, map)
-              }
-            </Surface>
-          )}
+            )}
           {this.renderLegend()}
           {this.renderTooltip()}
         </div>
