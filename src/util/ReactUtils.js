@@ -475,14 +475,16 @@ export const isChildrenEqual = (nextChildren, prevChildren) => {
   return true;
 };
 
-export const renderByOrder = (children, renderMap) => {
+export const renderByOrder = (children, renderMap, filter) => {
   let elements = [];
   const record = {};
 
   Children.forEach(children, (child, index) => {
-    if (child && isSvgElement(child)) {
+    if (!child) return;
+    if (filter && !filter(getDisplayName(child.type))) return;
+    if (isSvgElement(child)) {
       elements.push(child);
-    } else if (child && renderMap[getDisplayName(child.type)]) {
+    } else if (renderMap[getDisplayName(child.type)]) {
       const displayName = getDisplayName(child.type);
       const { handler, once } = renderMap[displayName];
 
