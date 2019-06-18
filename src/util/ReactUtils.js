@@ -480,10 +480,11 @@ export const renderByOrder = (children, renderMap, filter) => {
   const record = {};
 
   Children.forEach(children, (child, index) => {
+    if (!child) return;
     if (filter && !filter(getDisplayName(child.type))) return;
-    if (child && isSvgElement(child)) {
+    if (isSvgElement(child)) {
       elements.push(child);
-    } else if (child && renderMap[getDisplayName(child.type)]) {
+    } else if (renderMap[getDisplayName(child.type)]) {
       const displayName = getDisplayName(child.type);
       const { handler, once } = renderMap[displayName];
 
