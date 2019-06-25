@@ -188,7 +188,7 @@ function (_Component) {
         return defined(entry);
       }) : points;
 
-      if (_isArray(baseLine) || isNumber(baseLine)) {
+      if (_isArray(baseLine)) {
         var formatBaseLine = connectNulls ? baseLine.filter(function (base) {
           return defined(base);
         }) : baseLine;
