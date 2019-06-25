@@ -1946,12 +1946,12 @@ var generateCategoricalChart = function generateCategoricalChart(_ref) {
           width: width,
           height: height
         }), this.renderClipPath(), children && children.length && renderByOrder(children, map, function (componentType) {
-          return map[componentType].layer === 'bottom';
+          return map[componentType] && map[componentType].layer === 'bottom';
         })), this.renderCanvas(), React.createElement(Surface, _extends({}, attrs, {
           width: width,
           height: height
         }), this.renderClipPath(), children && children.length && renderByOrder(children, map, function (componentType) {
-          return map[componentType].layer !== 'bottom';
+          return map[componentType] && map[componentType].layer !== 'bottom' || !map[componentType];
         }))) : React.createElement(Surface, _extends({}, attrs, {
           width: width,
           height: height
