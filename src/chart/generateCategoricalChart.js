@@ -1600,7 +1600,7 @@ const generateCategoricalChart = ({
                 <Surface {...attrs} width={width} height={height}>
                   {this.renderClipPath()}
                   {
-                    children && children.length && renderByOrder(children, map, componentType => map[componentType].layer === 'bottom')
+                    children && children.length && renderByOrder(children, map, componentType => map[componentType] && map[componentType].layer === 'bottom')
                   }
                 </Surface>
                 {this.renderCanvas()}
@@ -1608,7 +1608,7 @@ const generateCategoricalChart = ({
                 <Surface {...attrs} width={width} height={height}>
                   {this.renderClipPath()}
                   {
-                    children && children.length && renderByOrder(children, map, componentType => map[componentType].layer !== 'bottom')
+                    children && children.length && renderByOrder(children, map, componentType => (map[componentType] && map[componentType].layer !== 'bottom') || !map[componentType])
                   }
                 </Surface>
               </React.Fragment>
