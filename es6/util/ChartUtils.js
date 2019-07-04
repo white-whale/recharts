@@ -655,7 +655,7 @@ export var parseScale = function parseScale(axis, chartType) {
     var name = "scale".concat(scale.slice(0, 1).toUpperCase()).concat(scale.slice(1));
     return {
       scale: (d3Scales[name] || d3Scales.scalePoint)(),
-      realScaleType: d3Scales[name] ? name : 'point'
+      realScaleType: d3Scales[name] ? scale : 'point'
     };
   }
 
