@@ -568,7 +568,7 @@ export const parseScale = (axis, chartType) => {
 
     return {
       scale: (d3Scales[name] || d3Scales.scalePoint)(),
-      realScaleType: d3Scales[name] ? name : 'point',
+      realScaleType: d3Scales[name] ? scale : 'point',
     };
   }
 
